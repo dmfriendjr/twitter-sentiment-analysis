@@ -1,15 +1,16 @@
-var form = new FormData();
-form.append("text", "It's snowing ");
+let tweetData = $('#popular-tweets')
+let form = new FormData();
+form.append("text", tweetData);
 
-var settings = {
+let settings = {
   "async": true,
   "crossDomain": true,
   "url": "https://text-sentiment.p.mashape.com/analyze",
-  "method": "GET",
+  "method": "POST",
   "headers": {
     "x-mashape-key": "JahSDCynJfmsh9D7aDmHnI63qsDYp1047atjsnvuyr2AKu7PPa",
     "cache-control": "no-cache",
-    "postman-token": "a465ddc2-58b0-e8e2-efa1-6d7ab098e039"
+    "postman-token": "11b32391-b270-ed47-09d3-94474d4f94c4"
   },
   "processData": false,
   "contentType": false,
@@ -22,7 +23,6 @@ $.ajax(settings).done(function (response) {
 });
 
 var googleGeocodeKey = `AIzaSyDg1N8wtIIuCBZNZlqOMB7sVCKTYxMZIpY`;
-
 var twitterKey = `ccCypGNN8sTabjkCLsWUt9EGk`;
 
 $('#location-search-submit-btn').on('click', (event) => {
