@@ -1,6 +1,7 @@
-let tweetData = $('#popular-tweets')
+let popularTweetData = $('#popular-tweets').text();
+
 let form = new FormData();
-form.append("text", tweetData);
+form.append("text", popularTweetData);
 
 let settings = {
   "async": true,
