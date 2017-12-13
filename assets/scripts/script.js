@@ -21,10 +21,6 @@ $.ajax(settings).done(function (response) {
   console.log(response);
 });
 
-var googleGeocodeKey = `AIzaSyDg1N8wtIIuCBZNZlqOMB7sVCKTYxMZIpY`;
-
-var twitterKey = `ccCypGNN8sTabjkCLsWUt9EGk`;
-
 $('#location-search-submit-btn').on('click', (event) => {
 	//Get input value
 	let inputText = $('location-search-input').val();
