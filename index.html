@@ -10,6 +10,7 @@
 	<!-- **** CSS Stylesheets **** -->
 
 	<link rel="stylesheet" href="assets/styles/reset.css">
+	<link href="https://fonts.googleapis.com/css?family=Arima+Madurai" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="assets/styles/style.css">
 
@@ -29,7 +30,9 @@
 
 
 	<!-- **** Header **** -->
-	<div class="header container-fluid">
+<section>
+	<div class="wrapper">
+		<div class="content">
 		<div class = "jumbotron">
 	 		<h1>Twitter Sentiment Analysis</h1>
 	 	 <h3>Analyzing Public Perception</h3>
@@ -41,13 +44,14 @@
       			<span class="input-group-btn">
         			<button id="location-search-submit-btn" class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
       			</span>
-      			<input id="location-search-input" type="text" class="form-control" placeholder="Richmond, Virginia" aria-label="Search location...">
+      			<input id="location-search-input" type="text" class="form-control" placeholder="Richmond, Virginia" aria-label="Search location..." maxlength="4" size="4">
     			</div>
   			</div>
   		</div>
-
 	</div>
 </div>
+	</div>
+ </section>
 
 	<!-- **** Main Body Container **** -->
 		<div class="container main-body">

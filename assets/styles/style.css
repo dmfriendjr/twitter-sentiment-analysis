@@ -4,6 +4,8 @@
 
 body {
 	background: #2AA3F0;
+	font-family: 'Arima Madurai', cursive;
+
 }
 
 #recent-searches {
@@ -13,15 +15,25 @@ body {
 .row {
 	margin-bottom: 10px;
 }
+.input-group{
+	position: relative;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%)
+}
 
-.header {
+section {
 	background: url("../images/header-people.jpg");
 }
+.wrapper {
+  padding: 20px 0;
+  max-width: 1360px;
+  margin: 0 auto; }
 
 .jumbotron {
 	padding: 0.5em 0.6em;
 	text-align: center;
-  background: rgb(204, 204, 204); /* Fallback for older browsers without RGBA-support */
+  background: rgb(100, 204, 204); /* Fallback for older browsers without RGBA-support */
   background: rgba(204, 204, 204, 0.70);
   color: white;
   margin-bottom: 30px;
