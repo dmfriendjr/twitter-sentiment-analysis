@@ -26,9 +26,6 @@ $.ajax(settings).done(function (response) {
 });
 
 
-var googleGeocodeKey = `AIzaSyDg1N8wtIIuCBZNZlqOMB7sVCKTYxMZIpY`;
-
-
 function doTwitterSearch(searchTerm, searchType) {
 	$.ajax({
 		method: 'GET',
@@ -49,19 +46,6 @@ function processTweetResults(response) {
 		}
 	}
 }
-
-//Google Geocoding API
-function doGeocodingRequest(location) {
-	var requestUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${googleGeocodeKey}`;
-
-	$.ajax({
-		method: 'GET',
-		url: requestUrl
-	}).done((response) => {
-		console.log(response);
-	});
-}
-
 
 $('#location-search-submit-btn').on('click', (event) => {
 	doTwitterSearch($('#location-search-input', 'popular').val());
