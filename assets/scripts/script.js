@@ -42,7 +42,7 @@ function processTweetResults(response) {
 	this.searchResults = [];
 	console.log(response);
 	for (let i = 0; i < response.statuses.length; i++) {
-		this.searchResults.push(response.statuses[i].text);
+		this.searchResults.push(response.statuses[i].full_text);
 	}
 }
 
