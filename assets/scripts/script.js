@@ -45,8 +45,6 @@ function processTweetResults(response) {
 			this.searchResults.push(response.statuses[i].full_text);
 		}
 
-		console.log('Testing', response.statuses[i].id);
-
 		if (i < 10) {
 			twttr.widgets.createTweet(
 			response.statuses[i].id_str,
@@ -57,10 +55,8 @@ function processTweetResults(response) {
 			  .then(function (el) {
 			 console.log("Tweet displayed.")
 				twttr.widgets.load();
-			 });
-		
+			 });	
 		}
-
 	}
 }
 
