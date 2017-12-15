@@ -1,4 +1,6 @@
 let popularTweetData = $('#popular-tweets').text();
+let searchResults;
+console.log('popularTweetData', popularTweetData);
 
 let form = new FormData();
 form.append("text", popularTweetData);
@@ -25,25 +27,23 @@ $.ajax(settings).done(function (response) {
 
 
 var googleGeocodeKey = `AIzaSyDg1N8wtIIuCBZNZlqOMB7sVCKTYxMZIpY`;
-var twitterKey = `ccCypGNN8sTabjkCLsWUt9EGk`;
 
-//Twitter API
 
-//Create Base64 encoded token from concatenated consumerKey:consumerSecretKey
-var encodedKey = btoa(`${twitterConsumerKey}:${twitterConsumerSecretKey}`);
-
-function getTwitterTokenCredentials(encodedKey) {
+function doTwitterSearch(searchTerm) {
 	$.ajax({
-		method: 'POST',
-		url: `https://api.twitter.com/oauth2/token`,
-		headers: {
-			Authorization: `Basic ${encodedKey}`,
-			contentType: `application/x-www-form-urlencoded;charset=UTF-8.`
-		},
-		body: {
-			grant_type: `client_credentials`
-		}
-	}).done( (response) => {});
+		method: 'GET',
+		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}`,
+	}).done( (response) => {
+		processTweetResults(JSON.parse(response));
+	});
+}
+
+function processTweetResults(response) {
+	this.searchResults = [];
+	console.log(response);
+	for (let i = 0; i < response.statuses.length; i++) {
+		this.searchResults.push(response.statuses[i].text);
+	}
 }
 
 //Google Geocoding API
@@ -58,9 +58,7 @@ function doGeocodingRequest(location) {
 	});
 }
 
-//Event listeners
+
 $('#location-search-submit-btn').on('click', (event) => {
-	//Get input value
-	let inputText = $('location-search-input').val();
-	doGeocodingRequest(inputText);
+	doTwitterSearch($('#location-search-input').val());
 });
