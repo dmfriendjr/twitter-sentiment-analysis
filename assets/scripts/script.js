@@ -44,17 +44,24 @@ function processTweetResults(response) {
 		} else {
 			this.searchResults.push(response.statuses[i].full_text);
 		}
-	}
 
-	twttr.widgets.createTweet(
-  		'511181794914627584',
- 		 document.getElementById('recent-tweets'),
-  		{
-   		 align: 'left'
-  		})
-		  .then(function (el) {
-   		 console.log("Tweet displayed.")
- 		 });
+		console.log('Testing', response.statuses[i].id);
+
+		if (i < 10) {
+			twttr.widgets.createTweet(
+			response.statuses[i].id_str,
+			 document.getElementById('recent-tweets'),
+			{
+			 align: 'left'
+			})
+			  .then(function (el) {
+			 console.log("Tweet displayed.")
+				twttr.widgets.load();
+			 });
+		
+		}
+
+	}
 }
 
 $('#location-search-submit-btn').on('click', (event) => {
