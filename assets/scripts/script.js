@@ -65,5 +65,5 @@ function processTweetResults(response) {
 }
 
 $('#location-search-submit-btn').on('click', (event) => {
-	doTwitterSearch($('#location-search-input', 'popular').val());
+	doTwitterSearch($('#location-search-input').val(), 'popular');
 });
