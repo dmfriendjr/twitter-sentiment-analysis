@@ -4,40 +4,67 @@
 
 body {
 	background: #2AA3F0;
-	font-family: 'Arima Madurai', cursive;
-
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 }
 
 #recent-searches {
 	text-align: center;
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+#trending-topics {
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+#overall-sentiment {
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+#popular-tweets {
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+#recent-tweets {
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
 }
 
 .row {
 	margin-bottom: 10px;
 }
+
 .input-group{
-	position: relative;
-    top: 50%;
-    left: 70%;
-    transform: translate(-50%, -50%)
-}
+ }
 
 section {
 	background: url("../images/header-people.jpg");
+	padding: 50px;
 }
-.wrapper {
-  padding: 20px 0;
-  max-width: 1360px;
-  margin: 0 auto; }
 
 .jumbotron {
-	padding: 0.5em 0.6em;
 	text-align: center;
   background: rgb(100, 204, 204); /* Fallback for older browsers without RGBA-support */
-  background: rgba(204, 204, 204, 0.70);
+  background: rgba(204, 204, 204, 0.80);
   color: white;
-  margin-bottom: 30px;
+  position: relative;
+}
 
+h1{
+	margin-bottom: 0px
 }
 
 img {
