@@ -37,15 +37,16 @@ function doTwitterSearch(searchTerm, searchType) {
 
 function processTweetResults(response) {
 	this.searchResults = [];
+	let displayTweets = 0;
 	console.log(response);
 	for (let i = 0; i < response.statuses.length; i++) {
 		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
 			this.searchResults.push(response.statuses[i].retweeted_status.full_text);
 		} else {
 			this.searchResults.push(response.statuses[i].full_text);
-		}
 
-		if (i < 10) {
+			if (displayTweets < 10) {
+			displayTweets++;
 			twttr.widgets.createTweet(
 			response.statuses[i].id_str,
 			 document.getElementById('recent-tweets'),
@@ -57,6 +58,9 @@ function processTweetResults(response) {
 				twttr.widgets.load();
 			 });	
 		}
+
+		}
+
 	}
 }
 
