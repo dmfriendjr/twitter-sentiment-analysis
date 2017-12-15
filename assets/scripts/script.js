@@ -29,10 +29,10 @@ $.ajax(settings).done(function (response) {
 var googleGeocodeKey = `AIzaSyDg1N8wtIIuCBZNZlqOMB7sVCKTYxMZIpY`;
 
 
-function doTwitterSearch(searchTerm) {
+function doTwitterSearch(searchTerm, searchType) {
 	$.ajax({
 		method: 'GET',
-		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}`,
+		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}?t=${searchType}`,
 	}).done( (response) => {
 		processTweetResults(JSON.parse(response));
 	});
@@ -42,7 +42,10 @@ function processTweetResults(response) {
 	this.searchResults = [];
 	console.log(response);
 	for (let i = 0; i < response.statuses.length; i++) {
-		this.searchResults.push(response.statuses[i].full_text);
+		if (response.statuses[i].retweeted === false) {
+			let newTweet = response.statuses[i].full_text;
+			this.searchResults.push(response.statuses[i].full_text);
+		}
 	}
 }
 
@@ -60,5 +63,5 @@ function doGeocodingRequest(location) {
 
 
 $('#location-search-submit-btn').on('click', (event) => {
-	doTwitterSearch($('#location-search-input').val());
+	doTwitterSearch($('#location-search-input', 'popular').val());
 });
