@@ -45,6 +45,16 @@ function processTweetResults(response) {
 			this.searchResults.push(response.statuses[i].full_text);
 		}
 	}
+
+	twttr.widgets.createTweet(
+  		'511181794914627584',
+ 		 document.getElementById('recent-tweets'),
+  		{
+   		 align: 'left'
+  		})
+		  .then(function (el) {
+   		 console.log("Tweet displayed.")
+ 		 });
 }
 
 $('#location-search-submit-btn').on('click', (event) => {
