@@ -42,8 +42,9 @@ function processTweetResults(response) {
 	this.searchResults = [];
 	console.log(response);
 	for (let i = 0; i < response.statuses.length; i++) {
-		if (response.statuses[i].retweeted === false) {
-			let newTweet = response.statuses[i].full_text;
+		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
+			this.searchResults.push(response.statuses[i].retweeted_status.full_text);
+		} else {
 			this.searchResults.push(response.statuses[i].full_text);
 		}
 	}
