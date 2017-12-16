@@ -1,117 +1,104 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	
-	<!-- **** Meta Info **** -->
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- **** Meta Info **** -->
 
-	<!-- **** CSS Stylesheets **** -->
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="assets/styles/reset.css">
-	<link href="https://fonts.googleapis.com/css?family=Arima+Madurai" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="assets/styles/style.css">
+		<!-- **** CSS Stylesheets **** -->
 
-	<!-- **** JQuery **** -->
+		<link rel="stylesheet" href="assets/styles/reset.css">
+		<link href="https://fonts.googleapis.com/css?family=Arima+Madurai" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="assets/styles/style.css">
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<!-- **** JQuery **** -->
 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-	<!-- **** Fonts **** -->
+		<title>Twitter Sentiment analysis</title>
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+	<body>
 
-	<title>Twitter Sentiment analysis</title>
+		<!-- **** Header **** -->
+		<section>
+		<div class="content">
 
-</head>
-<body>
+		<!-- **** Jumbotron **** -->
+		<div class="row justify-content-md-center">
+			<div class = "jumbotron col-md-8">
+				<h1>Twitter Sentiment Analysis</h1>
+				<h3>Analyzing Public Perception</h3>
 
+				<!-- **** Search Bar **** -->
+					<div class="row justify-content-md-center">
+						<div class="input-group col-md-12">
+							<span class="input-group-btn">
+								<button id="location-search-submit-btn" class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
+							</span>
+							<input id="location-search-input" type="text" class="form-control" placeholder="Trending topics" aria-label="Search topic...">
+						</div>
+					</div>
 
-	<!-- **** Header **** -->
-<section>
-	<div class="content">
-
-	<!-- **** Search Bar ***** -->
-
-	<div class="row justify-content-md-center">
-		<div class = "jumbotron col-md-8">
-			<h1>Twitter Sentiment Analysis</h1>
-	 	 	<h3>Analyzing Public Perception</h3>
-	 	 	<div class="row justify-content-md-center">
-	 	 		<div class="input-group col-md-12">
-      		<span class="input-group-btn">
-        		<button id="location-search-submit-btn" class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
-      		</span>
-      			<input id="location-search-input" type="text" class="form-control" placeholder="Richmond, Virginia" aria-label="Search location...">
-	 	 		</div>
+					<!-- **** Search Bar **** -->
+					<div class="row justify-content-md-center">
+						<p class="col-md-12" id="recent-searches">Trending Topic 1, Trending Topic 2, Trending Topic 3, Trending Topic 4</p>
+					</div>
 			</div>
 		</div>	
-	</div>
- </section>
+		</div>
+		</section>
 
-	<!-- **** Main Body Container **** -->
+		<!-- **** Main Body Container **** -->
 		<div class="container main-body">
 
-	<!-- **** Recent Searches **** -->
-			<div class = "row">
-				<div class = "col-md-12 rounded" id = "recent-searches">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. sdfdsfsdfsdfdsfdsdsdsfdsfdsfdsdsfsdf</div>
-			</div>
+		<!-- **** Recent Searches **** -->
+		<div class = "row">
+			<div class = "col-md-12 rounded" id = "trending-topics">
+				<button type="button" class="btn btn-secondary">Secondary</button>
+				<button type="button" class="btn btn-secondary">Triplary</button>
+				<button type="button" class="btn btn-secondary">Bananas</button>
+				<button type="button" class="btn btn-secondary">Cat</button>
+				<button type="button" class="btn btn-secondary">Richmond</button>
+				<button type="button" class="btn btn-secondary">RVA</button>
+				<button type="button" class="btn btn-secondary">Bagel the Beagle</button>
+				<button type="button" class="btn btn-secondary">Flying Squirrels</button>
+				<button type="button" class="btn btn-secondary">Chicken Nuggets</button>
+				<button type="button" class="btn btn-secondary">First</button>
+				<button type="button" class="btn btn-secondary">Catwoman</button>
+				<button type="button" class="btn btn-secondary">Batman</button>
 
-	<!-- **** Div that displays trending topics **** -->
-
-			<div class = "row">
-				<div class = "col-md-12 rounded" id = "trending-topics">
-					<ul>
-						<li>Item</li>
-						<li>Item</li>
-						<li>Item</li>
-						<li>Item</li>
-						<li>Item</li>
-						<li>Item</li>
-					</ul>
-				</div>
 			</div>
+		</div>
 
 	<!-- **** Div that displays the sentiment results **** -->
-
-			<div class = "row">
-				<div class = "col-md-12 rounded" id = "overall-sentiment">
-					<h3>Sentiment Analysis: Everyone's Happy</h3>
-				</div>
-			</div>
-
+	<div class = "row">
+		<div class = "col-md-12 rounded" id = "overall-sentiment">
+			<h3>Sentiment Analysis: Everyone's Happy</h3>
+		</div>
+	</div>
 
 	<!-- **** Div that displays up to 10 most popular **** -->
-
+	<div class = "row">
+		<div class = "col-s-12 col-md-6 rounded">
 			<div class = "row">
-				<div class = "col-s-12 col-md-6 rounded" id = "popular-tweets">
-					<ul>
-						<li>happy</li>
-						<li>happy</li>
-						<li>happy</li>
-						<li>happy</li>
-						<li>happy</li>
-						<li>happy</li>
-					</ul>
-				</div>
-
-	<!-- **** Div that displays up to 10 most recent **** -->
-
-				<div class = "col-s-12 col-md-6 rounded" id = "recent-tweets">
-					<ul>
-						<li>sad</li>
-						<li>sad</li>
-						<li>sad</li>
-						<li>sad</li>
-						<li>sad</li>
-						<li>sad</li>
-					</ul>
+				<div class="col-s-12 col-md-11 rounded" id = "popular-tweets">
 				</div>
 			</div>
+		</div>
 
+	<!-- **** Div that displays up to 10 most recent **** -->
+	<div class = "col-s-12 col-md-6 rounded">
+		<div class = "row">
+			<div class="col-s-12 col-md-11 offset-md-1 rounded"  id = "recent-tweets">
+			</div>
+		</div>
 	</div>
+	</div>
+</div>
 
 	<!-- **** Footer **** -->
 
