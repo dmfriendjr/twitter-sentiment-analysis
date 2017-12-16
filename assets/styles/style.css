@@ -82,8 +82,8 @@ h1 {
 	min-height: 50px;
 }
 
-#recent-search-link{
-	
+#recent-search-link:hover{
+	cursor: pointer;
 }
 /*body content*/
 
