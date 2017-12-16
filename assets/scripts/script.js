@@ -1,9 +1,48 @@
 let popularTweetData = $('#popular-tweets').text();
-let searchResults;
-console.log('popularTweetData', popularTweetData);
+
+
+
+
+function doTwitterSearch(searchTerm, searchType) {
+	$.ajax({
+		method: 'GET',
+		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}?t=${searchType}`,
+	}).done( (response) => {
+		processTweetResults(JSON.parse(response));
+	});
+}
+
+function processTweetResults(response) {
+	this.searchResults = [];
+	let displayTweets = 0;
+	console.log(response);
+	for (let i = 0; i < response.statuses.length; i++) {
+		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
+			this.searchResults.push(response.statuses[i].retweeted_status.full_text);
+		} else {
+			this.searchResults.push(response.statuses[i].full_text);
+
+			if (displayTweets < 10) {
+			displayTweets++;
+			twttr.widgets.createTweet(
+			response.statuses[i].id_str,
+			 document.getElementById('recent-tweets'),
+			{
+			 align: 'left'
+			})
+			  .then(function (el) {
+			 console.log("Tweet displayed.")
+				twttr.widgets.load();
+			 });	
+		}
+
+		}
+
+	}
+	console.log(searchResults);
 
 let form = new FormData();
-form.append("text", popularTweetData);
+form.append("text", searchResults);
 
 let settings = {
   "async": true,
@@ -24,29 +63,8 @@ let settings = {
 $.ajax(settings).done(function (response) {
   console.log(response);
 });
-
-
-function doTwitterSearch(searchTerm, searchType) {
-	$.ajax({
-		method: 'GET',
-		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}?t=${searchType}`,
-	}).done( (response) => {
-		processTweetResults(JSON.parse(response));
-	});
-}
-
-function processTweetResults(response) {
-	this.searchResults = [];
-	console.log(response);
-	for (let i = 0; i < response.statuses.length; i++) {
-		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
-			this.searchResults.push(response.statuses[i].retweeted_status.full_text);
-		} else {
-			this.searchResults.push(response.statuses[i].full_text);
-		}
-	}
 }
 
 $('#location-search-submit-btn').on('click', (event) => {
-	doTwitterSearch($('#location-search-input', 'popular').val());
+	doTwitterSearch($('#location-search-input').val(), 'popular');
 });
