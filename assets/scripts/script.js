@@ -106,6 +106,7 @@ $.ajax(settings).done(function (response) {
 
 
 $('#location-search-submit-btn').on('click', (event) => {
+	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
 	doTwitterSearch(searchTerm, 'popular');
 	doTwitterSearch(searchTerm, 'recent');
