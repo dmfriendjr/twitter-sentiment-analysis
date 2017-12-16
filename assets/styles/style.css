@@ -3,7 +3,7 @@
 }
 
 body {
-	background: #2AA3F0;
+	background: #CCCCCC;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 	font-size: 18px;
 	line-height: 34px;
@@ -62,26 +62,30 @@ section {
   color: white;
   position: relative;
   overflow: hidden;
+  max-height: 904px;
 }
 
 .btn {
 	margin-bottom: 4px;
+	margin-left: 2px;
 }
 
 h1 {
 	margin-bottom: 0px
 }
 
-/*img {
-	max-width:100%;
-	max-height:100%;
-}*/
-
 #recent-tweets, #popular-tweets {
 	max-height: 500px;
 	overflow: scroll;
 }
 
-/*#recent-div, #sentiment-div, #popular-div {
+#recent-div, #sentiment-div, #popular-div {
 	visibility: hidden;
-}*/
+}
+
+#location-search-input{
+}
+
+#location-search-submit-btn {
+	margin:0px;
+}

@@ -18,7 +18,7 @@
 		<!-- **** Fonts **** -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-		<title>Twitter Sentiment analysis</title>
+		<title>Twitter Sentiment Analysis</title>
 
 	</head>
 	<body>
@@ -34,17 +34,17 @@
 				<h3>Analyzing Public Perception</h3>
 
 				<!-- **** Search Bar **** -->
-				<div class="row justify-content-md-center">
+				<div class="row">
 					<form class="form-inline col-md-12">
-						<button type="submit" id="location-search-submit-btn" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+						<button type="submit" id="location-search-submit-btn" class="btn btn-secondary rounded-0"><i class="fa fa-search"></i></button>
   					<label class="sr-only" for="location-search-input"></label>
-  					<input type="text" class="form-control" id="location-search-input" placeholder="Trending topics...">
+  					<input type="text" class="form-control rounded-0" id="location-search-input" placeholder="Trending topics...">
 					</form>
 				</div>
 
 					<!-- **** Recent Searches **** -->
 					<div class="row justify-content-md-center">
-						<p class="col-md-12" id="recent-searches">Recent Search 1, Recent Search 2, Recent Search 3, Recent Search 4</p>
+						<div class = "col-md-12" id="recent-searches">Recent Search 1, Recent Search 2, Recent Search 3, Recent Search 4</div>
 					</div>
 			</div>
 		</div>	
@@ -54,8 +54,9 @@
 		<!-- **** Main Body Container **** -->
 		<div class="container main-body">
 
-		<!-- **** Recent Searches **** -->
+		<!-- **** Trending Searches **** -->
 		<div class = "row">
+			<h3 class="centered">Trending Topics</h3>
 			<div class = "col-md-12 rounded" id = "trending-topics">
 			</div>
 		</div>
