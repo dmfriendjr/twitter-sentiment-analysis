@@ -32,9 +32,11 @@ function processTweetResults(response,targetHTML) {
 			if (displayedTweetIds.indexOf(response.statuses[i].retweeted_status.id_str) === -1) {
 				this.searchResults.push(response.statuses[i].retweeted_status.full_text);
 				if (displayTweets < 25) {
+					displayTweets++;
 					displayedTweetIds.push(response.statuses[i].retweeted_status.id_str);
 					this.displayTweet(targetHTML,response.statuses[i].retweeted_status.id_str);
 				}
+
 			}
 		} else {
 			this.searchResults.push(response.statuses[i].full_text);
