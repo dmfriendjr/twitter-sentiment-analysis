@@ -1,25 +1,32 @@
 let popularTweetData = $('#popular-tweets').text();
 let database = firebase.database();
 
-function getRecentSearches() {
-	database.ref('recentSearches').once('value').then(function(snapshot) {
-		let searches = snapshot.val();
-		for (let i = 0; i < searches.length; i++) {
+function displayRecentSearches(snapshot) {
+	let searches = snapshot.val();
+	$('#recent-searches').empty();
+	for (var key in searches) {
+		if (searches.hasOwnProperty(key)) {
 			let newButton = $('<button>', {
 				'class': 'btn btn-primary',
-				'data-query': searches[i].searchTerm,
-				text: searches[i].searchTerm,
+				'data-query': searches[key].searchTerm,
+				text: searches[key].searchTerm,
 				click: (event) => {
+					this.doTwitterSearch($(event.target).data('query'));
 				}
 			});
-	
 
-			$('#recent-searches').append(newButton);
+			$('#recent-searches').append(newButton);				
 		}
-	})
+	}
 }
 
-function doTwitterSearch(searchTerm, searchType) {
+function doTwitterSearch(searchTerm) {
+	database.ref('recentSearches').push({searchTerm});
+	this.doTwitterRequest(searchTerm, 'popular');
+	this.doTwitterRequest(searchTerm, 'recent');
+}
+
+function doTwitterRequest(searchTerm, searchType) {
 	$.ajax({
 		method: 'GET',
 		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}?t=${searchType}`,
@@ -49,8 +56,7 @@ function displayTrendingTopics(response) {
 			'data-query': response[i].query,
 			text: response[i].name,
 			click: (event) => {
-				this.doTwitterSearch( $(event.target).text(), 'popular');
-				this.doTwitterSearch( $(event.target).text(), 'recent');				
+				this.doTwitterSearch( $(event.target).text());
 			}
 		});
 
@@ -101,11 +107,14 @@ function processTweetResults(response,targetHTML) {
 	this.doSentimentAnalysis(searchResults);
 }
 
+database.ref('recentSearches').on('value', (snapshot) => {
+	console.log('Snapshot updated', snapshot.val());
+	this.displayRecentSearches(snapshot);	
+});
 
 
 $(document).ready(() => {
-	this.getRecentSearches();
-	this.getTrendingTopics();	
+	this.getTrendingTopics();
 });
 
 function doSentimentAnalysis(searchResults)
@@ -141,8 +150,6 @@ function doSentimentAnalysis(searchResults)
 $('#location-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
-	database.ref('recentSearches').push({searchTerm});
 	$('#location-search-input').val('');
-	doTwitterSearch(searchTerm, 'popular');
-	doTwitterSearch(searchTerm, 'recent');
+	this.doTwitterSearch(searchTerm);
 });
