@@ -10,6 +10,35 @@ function doTwitterSearch(searchTerm, searchType) {
 	});
 }
 
+function getTrendingTopics() {
+	$.ajax({
+		method: 'GET',
+		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=2459115`,
+	}).done( (response) => {
+		displayTrendingTopics(JSON.parse(response));	
+	});
+}
+
+function displayTrendingTopics(response) {
+	response = response[0].trends;
+
+	let targetDiv = $('#trending-topics');
+	targetDiv.empty();
+	for (let i = 0; i < response.length; i++) {
+		let newButton = $('<button>', {
+			'class': 'btn btn-secondary',
+			'data-query': response[i].query,
+			text: response[i].name,
+			click: (event) => {
+				this.doTwitterSearch( $(event.target).text(), 'popular');
+				this.doTwitterSearch( $(event.target).text(), 'recent');				
+			}
+		});
+
+		targetDiv.append(newButton);
+	}
+}
+
 function displayTweet(targetHTML, tweetId) {
 	twttr.widgets.createTweet(tweetId,targetHTML,
 		{
@@ -47,32 +76,53 @@ function processTweetResults(response,targetHTML) {
 
 	}
 
-let form = new FormData();
-form.append("text", searchResults);
-
-let settings = {
-  "async": true,
-  "crossDomain": true,
-  "url": "https://text-sentiment.p.mashape.com/analyze",
-  "method": "POST",
-  "headers": {
-    "x-mashape-key": "JahSDCynJfmsh9D7aDmHnI63qsDYp1047atjsnvuyr2AKu7PPa",
-    "cache-control": "no-cache",
-    "postman-token": "11b32391-b270-ed47-09d3-94474d4f94c4"
-  },
-  "processData": false,
-  "contentType": false,
-  "mimeType": "multipart/form-data",
-  "data": form
+	this.doSentimentAnalysis(searchResults);
 }
 
+<<<<<<< HEAD
 $.ajax(settings).done(function (response) {
 	data(JSON.parse(response));
   console.log(response);
+=======
+
+
+$(document).ready(() => {
+	this.getTrendingTopics();	
+>>>>>>> a9ffd5e8735df65742a3cf82c7fd9f8c36319014
 });
+
+function doSentimentAnalysis(searchResults)
+{
+	for (let i = 0; i < searchResults.length; i++) {
+		let form = new FormData();
+		form.append("text", searchResults[i]);
+
+		let settings = {
+		  "async": true,
+		  "crossDomain": true,
+		  "url": "https://text-sentiment.p.mashape.com/analyze",
+		  "method": "POST",
+		  "headers": {
+		    "x-mashape-key": "JahSDCynJfmsh9D7aDmHnI63qsDYp1047atjsnvuyr2AKu7PPa",
+		    "cache-control": "no-cache",
+		    "postman-token": "11b32391-b270-ed47-09d3-94474d4f94c4"
+		  },
+		  "processData": false,
+		  "contentType": false,
+		  "mimeType": "multipart/form-data",
+		  "data": form
+		}
+
+		$.ajax(settings).done(function (response) {
+		  //console.log(response);
+		});
+	
+	}	
 }
 
+
 $('#location-search-submit-btn').on('click', (event) => {
+	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
 	doTwitterSearch(searchTerm, 'popular');
 	doTwitterSearch(searchTerm, 'recent');

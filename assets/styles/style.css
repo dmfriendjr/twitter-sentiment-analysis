@@ -9,6 +9,10 @@ body {
 	line-height: 34px;
 }
 
+#location-search-input {
+	width: 80%;
+}
+
 #recent-searches {
 	overflow: hidden;
 }
@@ -73,7 +77,11 @@ img {
 	max-height:100%;
 }
 
-/*
+#recent-tweets, #popular-tweets {
+	max-height: 500px;
+	overflow: scroll;
+}
+
 #recent-div, #sentiment-div, #popular-div {
 	visibility: hidden;
-}*/
+}
