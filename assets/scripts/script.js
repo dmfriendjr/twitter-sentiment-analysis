@@ -1,6 +1,50 @@
 let popularTweetData = $('#popular-tweets').text();
+let database = firebase.database();
 
-function doTwitterSearch(searchTerm, searchType) {
+function updateSearchesDatabase(searchTerm) {
+	//Push new search term to database
+	database.ref('recentSearches').push({searchTerm});
+
+	//Need to limit object to 10 results
+	database.ref('recentSearches').once('value', (snapshot) => {
+		console.log('Updating searches database', Object.values(snapshot.val()));
+		//Convert JSON to array
+		let searchArray = Object.values(snapshot.val());
+		//Remove results at beginning until there are only 10
+		while(searchArray.length > 10) {
+			searchArray.shift();
+		}
+		//Stringify array, parse string, set database
+		database.ref('recentSearches').set(JSON.parse(JSON.stringify(searchArray)));
+	});	
+}
+
+function displayRecentSearches(snapshot) {
+	let searches = snapshot.val();
+	$('#recent-searches').empty();
+	for (var key in searches) {
+		if (searches.hasOwnProperty(key)) {
+			let newButton = $('<button>', {
+				'class': 'btn btn-primary',
+				'data-query': searches[key].searchTerm,
+				text: searches[key].searchTerm,
+				click: (event) => {
+					this.doTwitterSearch($(event.target).data('query'));
+				}
+			});
+
+			$('#recent-searches').append(newButton);				
+		}
+	}
+}
+
+function doTwitterSearch(searchTerm) {
+	this.updateSearchesDatabase(searchTerm);
+	this.doTwitterRequest(searchTerm, 'popular');
+	this.doTwitterRequest(searchTerm, 'recent');
+}
+
+function doTwitterRequest(searchTerm, searchType) {
 	$.ajax({
 		method: 'GET',
 		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}?t=${searchType}`,
@@ -30,8 +74,7 @@ function displayTrendingTopics(response) {
 			'data-query': response[i].query,
 			text: response[i].name,
 			click: (event) => {
-				this.doTwitterSearch( $(event.target).text(), 'popular');
-				this.doTwitterSearch( $(event.target).text(), 'recent');				
+				this.doTwitterSearch( $(event.target).text());
 			}
 		});
 
@@ -52,12 +95,18 @@ function displayTweet(targetHTML, tweetId) {
 function processTweetResults(response,targetHTML) {
 	this.searchResults = [];
 	let displayTweets = 0;
-	let displayedTweetIds = [''];
+	let displayedTweetIds = [];
 	
+	//Empty any old tweets
+	$(targetHTML).empty();
+
 	for (let i = 0; i < response.statuses.length; i++) {
+		//If retweeted, display the retweeted status instead
 		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
+			//Don't display duplicate retweets
 			if (displayedTweetIds.indexOf(response.statuses[i].retweeted_status.id_str) === -1) {
 				this.searchResults.push(response.statuses[i].retweeted_status.full_text);
+				//Only display up to 25 tweets
 				if (displayTweets < 25) {
 					displayTweets++;
 					displayedTweetIds.push(response.statuses[i].retweeted_status.id_str);
@@ -65,9 +114,11 @@ function processTweetResults(response,targetHTML) {
 				}
 
 			}
+		//Display original tweet
 		} else {
 			this.searchResults.push(response.statuses[i].full_text);
 			displayedTweetIds.push(response.statuses[i].id_str);
+			//Only display up to 25 tweets			
 			if (displayTweets < 25) {
 				displayTweets++;
 				this.displayTweet(targetHTML,response.statuses[i].id_str);
@@ -78,14 +129,16 @@ function processTweetResults(response,targetHTML) {
 
 	$('#popular-div').attr('style', 'visibility: visible');
 	$('#recent-div').attr('style', 'visibility: visible');
-	//$('#recent-div').show();
 	this.doSentimentAnalysis(searchResults);
 }
 
+database.ref('recentSearches').on('value', (snapshot) => {
+	this.displayRecentSearches(snapshot);	
+});
 
 
 $(document).ready(() => {
-	this.getTrendingTopics();	
+	this.getTrendingTopics();
 });
 
 function doSentimentAnalysis(searchResults)
@@ -111,7 +164,8 @@ function doSentimentAnalysis(searchResults)
 		}
 
 		$.ajax(settings).done(function (response) {
-		  //console.log(response);
+		    let sentimentObject = (JSON.parse(response));
+            console.log(sentimentObject);
 		});
 	
 	}	
@@ -121,6 +175,6 @@ function doSentimentAnalysis(searchResults)
 $('#location-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
-	doTwitterSearch(searchTerm, 'popular');
-	doTwitterSearch(searchTerm, 'recent');
+	$('#location-search-input').val('');
+	this.doTwitterSearch(searchTerm);
 });
