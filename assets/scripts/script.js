@@ -1,45 +1,51 @@
 let popularTweetData = $('#popular-tweets').text();
 
-
-
-
 function doTwitterSearch(searchTerm, searchType) {
 	$.ajax({
 		method: 'GET',
 		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}?t=${searchType}`,
 	}).done( (response) => {
-		processTweetResults(JSON.parse(response));
+		let targetHTML = searchType === 'popular' ? document.getElementById('popular-tweets') : document.getElementById('recent-tweets');
+		processTweetResults(JSON.parse(response),targetHTML);
 	});
 }
 
-function processTweetResults(response) {
+function displayTweet(targetHTML, tweetId) {
+	twttr.widgets.createTweet(tweetId,targetHTML,
+		{
+		 align: 'left'
+		})
+	  	.then(function (el) {
+			twttr.widgets.load();
+	 	});	
+}
+
+function processTweetResults(response,targetHTML) {
 	this.searchResults = [];
 	let displayTweets = 0;
-	console.log(response);
+	let displayedTweetIds = [''];
+	
 	for (let i = 0; i < response.statuses.length; i++) {
 		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
-			this.searchResults.push(response.statuses[i].retweeted_status.full_text);
+			if (displayedTweetIds.indexOf(response.statuses[i].retweeted_status.id_str) === -1) {
+				this.searchResults.push(response.statuses[i].retweeted_status.full_text);
+				if (displayTweets < 25) {
+					displayTweets++;
+					displayedTweetIds.push(response.statuses[i].retweeted_status.id_str);
+					this.displayTweet(targetHTML,response.statuses[i].retweeted_status.id_str);
+				}
+
+			}
 		} else {
 			this.searchResults.push(response.statuses[i].full_text);
-
-			if (displayTweets < 10) {
-			displayTweets++;
-			twttr.widgets.createTweet(
-			response.statuses[i].id_str,
-			 document.getElementById('recent-tweets'),
-			{
-			 align: 'left'
-			})
-			  .then(function (el) {
-			 console.log("Tweet displayed.")
-				twttr.widgets.load();
-			 });	
-		}
-
+			displayedTweetIds.push(response.statuses[i].id_str);
+			if (displayTweets < 25) {
+				displayTweets++;
+				this.displayTweet(targetHTML,response.statuses[i].id_str);
+			}
 		}
 
 	}
-	console.log(searchResults);
 
 let form = new FormData();
 form.append("text", searchResults);
@@ -67,5 +73,7 @@ $.ajax(settings).done(function (response) {
 }
 
 $('#location-search-submit-btn').on('click', (event) => {
-	doTwitterSearch($('#location-search-input').val(), 'popular');
+	let searchTerm = $('#location-search-input').val();
+	doTwitterSearch(searchTerm, 'popular');
+	doTwitterSearch(searchTerm, 'recent');
 });
