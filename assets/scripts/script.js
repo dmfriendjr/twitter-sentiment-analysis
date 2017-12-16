@@ -140,7 +140,8 @@ function doSentimentAnalysis(searchResults)
 		}
 
 		$.ajax(settings).done(function (response) {
-		  //console.log(response);
+		    let sentimentObject = (JSON.parse(response));
+            console.log(sentimentObject);
 		});
 	
 	}	
@@ -153,3 +154,4 @@ $('#location-search-submit-btn').on('click', (event) => {
 	$('#location-search-input').val('');
 	this.doTwitterSearch(searchTerm);
 });
+>>>>>>> b303a87cfe4829d7f369222e0a5efd977b8d239a
