@@ -61,6 +61,7 @@ let settings = {
 }
 
 $.ajax(settings).done(function (response) {
+	data(JSON.parse(response));
   console.log(response);
 });
 }
