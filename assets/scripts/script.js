@@ -108,7 +108,6 @@ function processTweetResults(response,targetHTML) {
 }
 
 database.ref('recentSearches').on('value', (snapshot) => {
-	console.log('Snapshot updated', snapshot.val());
 	this.displayRecentSearches(snapshot);	
 });
 
@@ -154,4 +153,3 @@ $('#location-search-submit-btn').on('click', (event) => {
 	$('#location-search-input').val('');
 	this.doTwitterSearch(searchTerm);
 });
->>>>>>> b303a87cfe4829d7f369222e0a5efd977b8d239a
