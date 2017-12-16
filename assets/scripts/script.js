@@ -7,11 +7,10 @@ function updateSearchesDatabase(searchTerm) {
 
 	//Need to limit object to 10 results
 	database.ref('recentSearches').once('value', (snapshot) => {
-		console.log('Updating searches database', Object.values(snapshot.val()));
 		//Convert JSON to array
 		let searchArray = Object.values(snapshot.val());
 		//Remove results at beginning until there are only 10
-		while(searchArray.length > 10) {
+		while(searchArray.length > 5) {
 			searchArray.shift();
 		}
 		//Stringify array, parse string, set database
@@ -24,8 +23,7 @@ function displayRecentSearches(snapshot) {
 	$('#recent-searches').empty();
 	for (var key in searches) {
 		if (searches.hasOwnProperty(key)) {
-			let newButton = $('<button>', {
-				'class': 'btn btn-primary',
+			let newButton = $('<span>', {
 				'data-query': searches[key].searchTerm,
 				text: searches[key].searchTerm,
 				click: (event) => {
