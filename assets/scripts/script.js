@@ -13,7 +13,7 @@ function doTwitterSearch(searchTerm, searchType) {
 function getTrendingTopics() {
 	$.ajax({
 		method: 'GET',
-		url: `https://twitter-trending-analysis.herokuapp.com/trending/`,
+		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=2459115`,
 	}).done( (response) => {
 		displayTrendingTopics(JSON.parse(response));	
 	});
@@ -106,6 +106,7 @@ $.ajax(settings).done(function (response) {
 
 
 $('#location-search-submit-btn').on('click', (event) => {
+	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
 	doTwitterSearch(searchTerm, 'popular');
 	doTwitterSearch(searchTerm, 'recent');
