@@ -5,17 +5,16 @@
 body {
 	background: #2AA3F0;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	font-size: 18px;
+	line-height: 34px;
 }
 
 #recent-searches {
-	text-align: center;
-	background-color: white;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 10px;
+	overflow: hidden;
 }
 
 #trending-topics {
+	text-align: center;
 	background-color: white;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -47,9 +46,6 @@ body {
 	margin-bottom: 10px;
 }
 
-.input-group{
- }
-
 section {
 	background: url("../images/header-people.jpg");
 	padding: 50px;
@@ -61,9 +57,14 @@ section {
   background: rgba(204, 204, 204, 0.80);
   color: white;
   position: relative;
+  overflow: hidden;
 }
 
-h1{
+.btn {
+	margin-bottom: 4px;
+}
+
+h1 {
 	margin-bottom: 0px
 }
 
