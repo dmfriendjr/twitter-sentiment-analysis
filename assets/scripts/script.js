@@ -8,7 +8,15 @@ function updateSearchesDatabase(searchTerm) {
 	//Need to limit object to 10 results
 	database.ref('recentSearches').once('value', (snapshot) => {
 		//Convert JSON to array
+		console.log(snapshot.val());
 		let searchArray = Object.values(snapshot.val());
+		console.log(searchArray);
+		//Check if search term exists anywhere in children
+	
+		for (var key in searchArray) {
+			console.log(searchArray[key].searchTerm);
+		}
+
 		//Remove results at beginning until there are only 10
 		while(searchArray.length > 5) {
 			searchArray.shift();
@@ -25,6 +33,7 @@ function displayRecentSearches(snapshot) {
 		if (searches.hasOwnProperty(key)) {
 			let newButton = $('<span>', {
 				'data-query': searches[key].searchTerm,
+				'class': 'recent-search-link',
 				text: searches[key].searchTerm,
 				click: (event) => {
 					this.doTwitterSearch($(event.target).data('query'));
