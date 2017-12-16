@@ -76,6 +76,9 @@ function processTweetResults(response,targetHTML) {
 
 	}
 
+	$('#popular-div').attr('style', 'visibility: visible');
+	$('#recent-div').attr('style', 'visibility: visible');
+	//$('#recent-div').show();
 	this.doSentimentAnalysis(searchResults);
 }
 
