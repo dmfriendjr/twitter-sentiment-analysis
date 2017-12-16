@@ -23,10 +23,8 @@ function displayTweet(targetHTML, tweetId) {
 function processTweetResults(response,targetHTML) {
 	this.searchResults = [];
 	let displayTweets = 0;
-	console.log(response);
 	let displayedTweetIds = [''];
 	
-	console.log('Target HTML', targetHTML);
 	for (let i = 0; i < response.statuses.length; i++) {
 		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
 			if (displayedTweetIds.indexOf(response.statuses[i].retweeted_status.id_str) === -1) {
