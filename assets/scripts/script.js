@@ -1,6 +1,24 @@
 let popularTweetData = $('#popular-tweets').text();
 let database = firebase.database();
 
+function updateSearchesDatabase(searchTerm) {
+	//Push new search term to database
+	database.ref('recentSearches').push({searchTerm});
+
+	//Need to limit object to 10 results
+	database.ref('recentSearches').once('value', (snapshot) => {
+		console.log('Updating searches database', Object.values(snapshot.val()));
+		//Convert JSON to array
+		let searchArray = Object.values(snapshot.val());
+		//Remove results at beginning until there are only 10
+		while(searchArray.length >= 10) {
+			searchArray.shift();
+		}
+		//Stringify array, parse string, set database
+		database.ref('recentSearches').set(JSON.parse(JSON.stringify(searchArray)));
+	});	
+}
+
 function displayRecentSearches(snapshot) {
 	let searches = snapshot.val();
 	$('#recent-searches').empty();
@@ -21,7 +39,7 @@ function displayRecentSearches(snapshot) {
 }
 
 function doTwitterSearch(searchTerm) {
-	database.ref('recentSearches').push({searchTerm});
+	this.updateSearchesDatabase(searchTerm);
 	this.doTwitterRequest(searchTerm, 'popular');
 	this.doTwitterRequest(searchTerm, 'recent');
 }
