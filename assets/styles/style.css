@@ -1,3 +1,5 @@
+/*Global Styling*/
+
 * {
 	box-sizing: border-box;
 }
@@ -9,52 +11,29 @@ body {
 	line-height: 34px;
 }
 
-#location-search-input {
-	width: 80%;
-}
-
-#recent-searches {
-	overflow: hidden;
-	min-height: 50px
-}
-
-#trending-topics {
-	text-align: center;
-	background-color: white;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 10px;
-}
-
-#overall-sentiment {
-	background-color: white;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 10px;
-}
-
-#popular-tweets {
-	background-color: white;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 10px;
-}
-
-#recent-tweets {
-	background-color: white;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 10px;
+section {
+	background: url("../images/header-people.jpg");
+	padding: 50px;
 }
 
 .row {
 	margin-bottom: 10px;
 }
 
-section {
-	background: url("../images/header-people.jpg");
-	padding: 50px;
+.btn {
+	margin-bottom: 4px;
+	margin-left: 2px;
 }
+
+h1 {
+	margin-bottom: 0px
+}
+
+#recent-div, #sentiment-div, #popular-div {
+	visibility: hidden;
+}
+
+/*Jumbotron & Contents*/
 
 .jumbotron {
 	text-align: center;
@@ -72,28 +51,14 @@ section {
   align-items: center;
 }
 
-.btn {
-	margin-bottom: 4px;
-	margin-left: 2px;
-}
-
-h1 {
-	margin-bottom: 0px
-}
-
-#recent-tweets, #popular-tweets {
-	max-height: 500px;
-	overflow: scroll;
-}
-
-#recent-div, #sentiment-div, #popular-div {
-	visibility: hidden;
-}
+/*Search Bar*/
 
 #location-search-input{
 	border: white;
 	padding-top: 7px;
 	padding-bottom: 7px;
+	width: 80%;
+
 }
 
 #location-search-submit-btn {
@@ -109,4 +74,54 @@ h1 {
 	justify-content: center;
 	align-items: center;
 	max-height: 70px;
+}
+
+/*Recent Searches*/
+#recent-searches {
+	overflow: hidden;
+	min-height: 50px;
+}
+
+/*body content*/
+
+/*Trending Topics*/
+
+#trending-topics {
+	text-align: center;
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+/*Sentiment Overview*/
+
+#overall-sentiment {
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+/*Popular Tweets*/
+
+#popular-tweets {
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+/*Recent Tweets*/
+
+#recent-tweets {
+	background-color: white;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+#recent-tweets, #popular-tweets {
+	max-height: 500px;
+	overflow: scroll;
 }
