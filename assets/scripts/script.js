@@ -11,7 +11,7 @@ function updateSearchesDatabase(searchTerm) {
 		//Convert JSON to array
 		let searchArray = Object.values(snapshot.val());
 		//Remove results at beginning until there are only 10
-		while(searchArray.length >= 10) {
+		while(searchArray.length > 10) {
 			searchArray.shift();
 		}
 		//Stringify array, parse string, set database
@@ -95,12 +95,18 @@ function displayTweet(targetHTML, tweetId) {
 function processTweetResults(response,targetHTML) {
 	this.searchResults = [];
 	let displayTweets = 0;
-	let displayedTweetIds = [''];
+	let displayedTweetIds = [];
 	
+	//Empty any old tweets
+	$(targetHTML).empty();
+
 	for (let i = 0; i < response.statuses.length; i++) {
+		//If retweeted, display the retweeted status instead
 		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
+			//Don't display duplicate retweets
 			if (displayedTweetIds.indexOf(response.statuses[i].retweeted_status.id_str) === -1) {
 				this.searchResults.push(response.statuses[i].retweeted_status.full_text);
+				//Only display up to 25 tweets
 				if (displayTweets < 25) {
 					displayTweets++;
 					displayedTweetIds.push(response.statuses[i].retweeted_status.id_str);
@@ -108,9 +114,11 @@ function processTweetResults(response,targetHTML) {
 				}
 
 			}
+		//Display original tweet
 		} else {
 			this.searchResults.push(response.statuses[i].full_text);
 			displayedTweetIds.push(response.statuses[i].id_str);
+			//Only display up to 25 tweets			
 			if (displayTweets < 25) {
 				displayTweets++;
 				this.displayTweet(targetHTML,response.statuses[i].id_str);
@@ -121,7 +129,6 @@ function processTweetResults(response,targetHTML) {
 
 	$('#popular-div').attr('style', 'visibility: visible');
 	$('#recent-div').attr('style', 'visibility: visible');
-	//$('#recent-div').show();
 	this.doSentimentAnalysis(searchResults);
 }
 
