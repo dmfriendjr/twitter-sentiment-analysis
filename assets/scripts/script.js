@@ -10,6 +10,35 @@ function doTwitterSearch(searchTerm, searchType) {
 	});
 }
 
+function getTrendingTopics() {
+	$.ajax({
+		method: 'GET',
+		url: `https://twitter-trending-analysis.herokuapp.com/trending/`,
+	}).done( (response) => {
+		displayTrendingTopics(JSON.parse(response));	
+	});
+}
+
+function displayTrendingTopics(response) {
+	response = response[0].trends;
+
+	let targetDiv = $('#trending-topics');
+	targetDiv.empty();
+	for (let i = 0; i < response.length; i++) {
+		let newButton = $('<button>', {
+			'class': 'btn btn-secondary',
+			'data-query': response[i].query,
+			text: response[i].name,
+			click: (event) => {
+				this.doTwitterSearch( $(event.target).text(), 'popular');
+				this.doTwitterSearch( $(event.target).text(), 'recent');				
+			}
+		});
+
+		targetDiv.append(newButton);
+	}
+}
+
 function displayTweet(targetHTML, tweetId) {
 	twttr.widgets.createTweet(tweetId,targetHTML,
 		{
@@ -46,9 +75,14 @@ function processTweetResults(response,targetHTML) {
 		}
 
 	}
+}
+
+$(document).ready(() => {
+	this.getTrendingTopics();	
+});
 
 let form = new FormData();
-form.append("text", searchResults);
+//form.append("text", searchResults);
 
 let settings = {
   "async": true,
@@ -69,7 +103,7 @@ let settings = {
 $.ajax(settings).done(function (response) {
   console.log(response);
 });
-}
+
 
 $('#location-search-submit-btn').on('click', (event) => {
 	let searchTerm = $('#location-search-input').val();
