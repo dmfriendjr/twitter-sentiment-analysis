@@ -13,7 +13,7 @@ function doTwitterSearch(searchTerm, searchType) {
 function getTrendingTopics() {
 	$.ajax({
 		method: 'GET',
-		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=2459115`,
+		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=1`,
 	}).done( (response) => {
 		displayTrendingTopics(JSON.parse(response));	
 	});
