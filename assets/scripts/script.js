@@ -2,20 +2,35 @@ let popularTweetData = $('#popular-tweets').text();
 let database = firebase.database();
 
 function updateSearchesDatabase(searchTerm) {
-	//Push new search term to database
-	database.ref('recentSearches').push({searchTerm});
 
-	//Need to limit object to 10 results
 	database.ref('recentSearches').once('value', (snapshot) => {
-		console.log('Updating searches database', Object.values(snapshot.val()));
+		if (snapshot.exists()) {
 		//Convert JSON to array
+		console.log(snapshot.val());
 		let searchArray = Object.values(snapshot.val());
-		//Remove results at beginning until there are only 10
-		while(searchArray.length > 10) {
-			searchArray.shift();
+		console.log(searchArray);
+		//Check if search term exists anywhere in children
+		let searchExists = false;	
+		for (var key in searchArray) {
+			if (searchArray[key].searchTerm === searchTerm) {
+				searchExists = true;
+			}
 		}
-		//Stringify array, parse string, set database
-		database.ref('recentSearches').set(JSON.parse(JSON.stringify(searchArray)));
+
+		if (!searchExists) {
+			//Remove results at beginning until there are only 4
+			while(searchArray.length > 4) {
+				searchArray.shift();
+			}
+			
+			//Stringify array, parse string, set database
+			database.ref('recentSearches').set(JSON.parse(JSON.stringify(searchArray)));	
+
+			//Push new search term to database
+			database.ref('recentSearches').push({searchTerm});
+		}
+		
+		}
 	});	
 }
 
@@ -24,9 +39,9 @@ function displayRecentSearches(snapshot) {
 	$('#recent-searches').empty();
 	for (var key in searches) {
 		if (searches.hasOwnProperty(key)) {
-			let newButton = $('<button>', {
-				'class': 'btn btn-primary',
+			let newButton = $('<span>', {
 				'data-query': searches[key].searchTerm,
+				'class': 'recent-search-link',
 				text: searches[key].searchTerm,
 				click: (event) => {
 					this.doTwitterSearch($(event.target).data('query'));
