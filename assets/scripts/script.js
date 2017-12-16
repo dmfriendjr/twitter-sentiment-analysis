@@ -180,9 +180,10 @@ function doSentimentAnalysis(searchResults)
 
 		$.ajax(settings).done(function (response) {
 		    let sentimentObject = (JSON.parse(response));
-            console.log(sentimentObject);
+            // console.log(sentimentObject);
+
 		});
-	
+
 	}	
 }
 
