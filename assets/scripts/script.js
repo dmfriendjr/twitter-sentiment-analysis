@@ -1,4 +1,23 @@
 let popularTweetData = $('#popular-tweets').text();
+let database = firebase.database();
+
+function getRecentSearches() {
+	database.ref('recentSearches').once('value').then(function(snapshot) {
+		let searches = snapshot.val();
+		for (let i = 0; i < searches.length; i++) {
+			let newButton = $('<button>', {
+				'class': 'btn btn-primary',
+				'data-query': searches[i].searchTerm,
+				text: searches[i].searchTerm,
+				click: (event) => {
+				}
+			});
+	
+
+			$('#recent-searches').append(newButton);
+		}
+	})
+}
 
 function doTwitterSearch(searchTerm, searchType) {
 	$.ajax({
@@ -85,6 +104,7 @@ function processTweetResults(response,targetHTML) {
 
 
 $(document).ready(() => {
+	this.getRecentSearches();
 	this.getTrendingTopics();	
 });
 
@@ -121,6 +141,8 @@ function doSentimentAnalysis(searchResults)
 $('#location-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
+	database.ref('recentSearches').push({searchTerm});
+	$('#location-search-input').val('');
 	doTwitterSearch(searchTerm, 'popular');
 	doTwitterSearch(searchTerm, 'recent');
 });
