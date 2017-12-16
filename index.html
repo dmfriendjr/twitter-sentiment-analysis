@@ -45,7 +45,7 @@
 
 					<!-- **** Search Bar **** -->
 					<div class="row justify-content-md-center">
-						<p class="col-md-12" id="recent-searches">Trending Topic 1, Trending Topic 2, Trending Topic 3, Trending Topic 4</p>
+						<p class="col-md-12" id="recent-searches">Recent Search 1, Recent Search 2, Recent Search 3, Recent Search 4</p>
 					</div>
 			</div>
 		</div>	
@@ -75,24 +75,27 @@
 		</div>
 
 	<!-- **** Div that displays the sentiment results **** -->
-	<div class = "row">
-		<div class = "col-md-12 rounded" id = "overall-sentiment">
+	<div class = "row" id="sentiment-div">
+		<div class = "col-md-12 rounded">
 			<h3>Sentiment Analysis: Everyone's Happy</h3>
+			<div id = "overall-sentiment"></div>
 		</div>
 	</div>
 
 	<!-- **** Div that displays up to 10 most popular **** -->
 	<div class = "row">
-		<div class = "col-s-12 col-md-6 rounded">
+		<div class = "col-s-12 col-md-6 rounded" id="popular-div">
 			<div class = "row">
+				<h3>Popular Tweets</h3>
 				<div class="col-s-12 col-md-11 rounded" id = "popular-tweets">
 				</div>
 			</div>
 		</div>
 
 	<!-- **** Div that displays up to 10 most recent **** -->
-	<div class = "col-s-12 col-md-6 rounded">
+	<div class = "col-s-12 col-md-6 rounded" id="recent-div">
 		<div class = "row">
+			<h3 class="offset-md-1">Recent Tweets</h3>
 			<div class="col-s-12 col-md-11 offset-md-1 rounded"  id = "recent-tweets">
 			</div>
 		</div>
