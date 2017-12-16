@@ -12,34 +12,43 @@ function doTwitterSearch(searchTerm, searchType) {
 	});
 }
 
+function displayTweet(targetHTML, tweetId) {
+	twttr.widgets.createTweet(tweetId,targetHTML,
+		{
+		 align: 'left'
+		})
+	  	.then(function (el) {
+			twttr.widgets.load();
+	 	});	
+}
+
 function processTweetResults(response) {
 	this.searchResults = [];
 	let displayTweets = 0;
 	console.log(response);
+	let displayedTweetIds = [''];
+	
 	for (let i = 0; i < response.statuses.length; i++) {
+
+
 		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
-			this.searchResults.push(response.statuses[i].retweeted_status.full_text);
+			if (displayedTweetIds.indexOf(response.statuses[i].retweeted_status.id_str) !== -1) {
+				console.log('List contains id already', displayedTweetIds);
+			} else {
+				this.searchResults.push(response.statuses[i].retweeted_status.full_text);			
+				displayedTweetIds.push(response.statuses[i].retweeted_status.id_str);
+				this.displayTweet(document.getElementById('recent-tweets'),response.statuses[i].retweeted_status.id_str);
+			}
 		} else {
 			this.searchResults.push(response.statuses[i].full_text);
 
-			if (displayTweets < 10) {
-			displayTweets++;
-			twttr.widgets.createTweet(
-			response.statuses[i].id_str,
-			 document.getElementById('recent-tweets'),
-			{
-			 align: 'left'
-			})
-			  .then(function (el) {
-			 console.log("Tweet displayed.")
-				twttr.widgets.load();
-			 });	
-		}
-
+			if (displayTweets < 25) {
+				displayTweets++;
+				this.displayTweet(document.getElementById('popular-tweets'),response.statuses[i].id_str);
+			}
 		}
 
 	}
-	console.log(searchResults);
 
 let form = new FormData();
 form.append("text", searchResults);
