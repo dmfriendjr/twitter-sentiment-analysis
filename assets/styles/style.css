@@ -72,16 +72,16 @@ h1 {
 	margin-bottom: 0px
 }
 
-img {
+/*img {
 	max-width:100%;
 	max-height:100%;
-}
+}*/
 
 #recent-tweets, #popular-tweets {
 	max-height: 500px;
 	overflow: scroll;
 }
 
-#recent-div, #sentiment-div, #popular-div {
+/*#recent-div, #sentiment-div, #popular-div {
 	visibility: hidden;
-}
+}*/
