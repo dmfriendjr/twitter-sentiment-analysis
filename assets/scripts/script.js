@@ -2,27 +2,35 @@ let popularTweetData = $('#popular-tweets').text();
 let database = firebase.database();
 
 function updateSearchesDatabase(searchTerm) {
-	//Push new search term to database
-	database.ref('recentSearches').push({searchTerm});
 
-	//Need to limit object to 10 results
 	database.ref('recentSearches').once('value', (snapshot) => {
+		if (snapshot.exists()) {
 		//Convert JSON to array
 		console.log(snapshot.val());
 		let searchArray = Object.values(snapshot.val());
 		console.log(searchArray);
 		//Check if search term exists anywhere in children
-	
+		let searchExists = false;	
 		for (var key in searchArray) {
-			console.log(searchArray[key].searchTerm);
+			if (searchArray[key].searchTerm === searchTerm) {
+				searchExists = true;
+			}
 		}
 
-		//Remove results at beginning until there are only 10
-		while(searchArray.length > 5) {
-			searchArray.shift();
+		if (!searchExists) {
+			//Remove results at beginning until there are only 4
+			while(searchArray.length > 4) {
+				searchArray.shift();
+			}
+			
+			//Stringify array, parse string, set database
+			database.ref('recentSearches').set(JSON.parse(JSON.stringify(searchArray)));	
+
+			//Push new search term to database
+			database.ref('recentSearches').push({searchTerm});
 		}
-		//Stringify array, parse string, set database
-		database.ref('recentSearches').set(JSON.parse(JSON.stringify(searchArray)));
+		
+		}
 	});	
 }
 
