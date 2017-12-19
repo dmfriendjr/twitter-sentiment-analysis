@@ -82,10 +82,15 @@ h1 {
 	min-height: 50px;
 }
 
-#recent-search-link{
-	
+.recent-search-link {
+	text-transform: lowercase;
+}
+.recent-search-link:hover {
+	cursor: pointer;
 }
 /*body content*/
+
+/*Delete this later!!!!!*/
 
 /*Trending Topics*/
 

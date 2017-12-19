@@ -42,7 +42,7 @@ function displayRecentSearches(snapshot) {
 			let newButton = $('<span>', {
 				'data-query': searches[key].searchTerm,
 				'class': 'recent-search-link',
-				text: searches[key].searchTerm,
+				text: searches[key].searchTerm + "," + " ",
 				click: (event) => {
 					this.doTwitterSearch($(event.target).data('query'));
 				}
@@ -180,9 +180,10 @@ function doSentimentAnalysis(searchResults)
 
 		$.ajax(settings).done(function (response) {
 		    let sentimentObject = (JSON.parse(response));
-            console.log(sentimentObject);
+            // console.log(sentimentObject);
+
 		});
-	
+
 	}	
 }
 
