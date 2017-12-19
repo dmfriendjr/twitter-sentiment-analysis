@@ -221,8 +221,11 @@ database.ref('recentSearches').on('value', (snapshot) => {
 $('#location-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
-	//Encode special characters into escape codes and do search
-	this.doTwitterSearch(encodeURIComponent(searchTerm));
+	searchTerm = searchTerm.trim();
+	if (searchTerm.length > 0) {
+		//Encode special characters into escape codes and do search
+		this.doTwitterSearch(encodeURIComponent(searchTerm));
+	}
 });
 
 $('#trending-search-submit-btn').on('click', (event) => {
