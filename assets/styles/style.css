@@ -85,6 +85,15 @@ h1 {
 .recent-search-link {
 	text-transform: lowercase;
 }
+
+.recent-search-link:after {
+	content: ', ';
+}
+
+.recent-search-link:last-child:after {
+	content: '';
+}
+
 .recent-search-link:hover {
 	cursor: pointer;
 }
