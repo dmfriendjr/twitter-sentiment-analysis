@@ -204,7 +204,6 @@ function doSentimentAnalysis(searchResults)
 $('#location-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
-	$('#location-search-input').val('');
 	//Encode special characters into escape codes and do search
 	this.doTwitterSearch(encodeURIComponent(searchTerm));
 });
@@ -213,4 +212,12 @@ $('#trending-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
 	let location = $('#trending-search-input').val();
 	this.doWOEIDRequest(encodeURIComponent(location));
+});
+
+$('#trending-search-input').on('click', (event) => {
+	$(event.target).val('');
+});
+
+$('#location-search-input').on('click', (event) => {
+	$(event.target).val('');
 });
