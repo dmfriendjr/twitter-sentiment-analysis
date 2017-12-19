@@ -69,10 +69,24 @@ function doTwitterRequest(searchTerm, searchType) {
 	});
 }
 
-function getTrendingTopics() {
+function doWOEIDRequest(locationSearch) {
 	$.ajax({
 		method: 'GET',
-		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=23424977`,
+		url: `https://query.yahooapis.com/v1/public/yql?q=select%20woeid%20from%20geo.places(1)%20where%20text%3D%22${locationSearch}%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`
+	}).done((response) => {
+		console.log(response);
+		console.log('WOEID is', response.query.results.place.woeid);
+		if (response.query.results.place.woeid !== null) {
+			this.getTrendingTopics(response.query.results.place.woeid);
+		}
+	});
+}
+
+
+function getTrendingTopics(woeid) {
+	$.ajax({
+		method: 'GET',
+		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=${woeid}`,
 	}).done( (response) => {
 		displayTrendingTopics(JSON.parse(response));	
 	});
@@ -153,7 +167,8 @@ database.ref('recentSearches').on('value', (snapshot) => {
 
 
 $(document).ready(() => {
-	this.getTrendingTopics();
+	//Search USA as default for trending topics
+	this.getTrendingTopics('23424977');
 });
 
 function doSentimentAnalysis(searchResults)
@@ -194,4 +209,10 @@ $('#location-search-submit-btn').on('click', (event) => {
 	$('#location-search-input').val('');
 	//Encode special characters into escape codes and do search
 	this.doTwitterSearch(encodeURIComponent(searchTerm));
+});
+
+$('#trending-search-submit-btn').on('click', (event) => {
+	event.preventDefault();
+	let location = $('#trending-search-input').val();
+	this.doWOEIDRequest(encodeURIComponent(location));
 });
