@@ -6,9 +6,7 @@ function updateSearchesDatabase(searchTerm) {
 	database.ref('recentSearches').once('value', (snapshot) => {
 		if (snapshot.exists()) {
 		//Convert JSON to array
-		console.log(snapshot.val());
 		let searchArray = Object.values(snapshot.val());
-		console.log(searchArray);
 		//Check if search term exists anywhere in children
 		let searchExists = false;	
 		for (var key in searchArray) {
@@ -42,7 +40,7 @@ function displayRecentSearches(snapshot) {
 			let newButton = $('<span>', {
 				'data-query': searches[key].searchTerm,
 				'class': 'recent-search-link',
-				text: searches[key].searchTerm,
+				text: decodeURIComponent(searches[key].searchTerm),
 				click: (event) => {
 					this.doTwitterSearch($(event.target).data('query'));
 				}
@@ -53,26 +51,21 @@ function displayRecentSearches(snapshot) {
 	}
 }
 
-function doTwitterSearch(searchTerm) {
-	this.updateSearchesDatabase(searchTerm);
-	this.doTwitterRequest(searchTerm, 'popular');
-	this.doTwitterRequest(searchTerm, 'recent');
-}
-
-function doTwitterRequest(searchTerm, searchType) {
+function doWOEIDRequest(locationSearch) {
 	$.ajax({
 		method: 'GET',
-		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}?t=${searchType}`,
-	}).done( (response) => {
-		let targetHTML = searchType === 'popular' ? document.getElementById('popular-tweets') : document.getElementById('recent-tweets');
-		processTweetResults(JSON.parse(response),targetHTML);
+		url: `https://query.yahooapis.com/v1/public/yql?q=select%20woeid%20from%20geo.places(1)%20where%20text%3D%22${locationSearch}%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`
+	}).done((response) => {
+		if (response.query.results !== null) {
+			this.getTrendingTopics(response.query.results.place.woeid);
+		}
 	});
 }
 
-function getTrendingTopics() {
+function getTrendingTopics(woeid) {
 	$.ajax({
 		method: 'GET',
-		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=1`,
+		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=${woeid}`,
 	}).done( (response) => {
 		displayTrendingTopics(JSON.parse(response));	
 	});
@@ -97,14 +90,20 @@ function displayTrendingTopics(response) {
 	}
 }
 
-function displayTweet(targetHTML, tweetId) {
-	twttr.widgets.createTweet(tweetId,targetHTML,
-		{
-		 align: 'left'
-		})
-	  	.then(function (el) {
-			twttr.widgets.load();
-	 	});	
+function doTwitterSearch(searchTerm) {
+	this.updateSearchesDatabase(searchTerm);
+	this.doTwitterRequest(searchTerm, 'popular');
+	this.doTwitterRequest(searchTerm, 'recent');
+}
+
+function doTwitterRequest(searchTerm, searchType) {
+	$.ajax({
+		method: 'GET',
+		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}&t=${searchType}`,
+	}).done( (response) => {
+		let targetHTML = searchType === 'popular' ? document.getElementById('popular-tweets') : document.getElementById('recent-tweets');
+		processTweetResults(JSON.parse(response),targetHTML);
+	});
 }
 
 function processTweetResults(response,targetHTML) {
@@ -147,14 +146,15 @@ function processTweetResults(response,targetHTML) {
 	this.doSentimentAnalysis(searchResults);
 }
 
-database.ref('recentSearches').on('value', (snapshot) => {
-	this.displayRecentSearches(snapshot);	
-});
-
-
-$(document).ready(() => {
-	this.getTrendingTopics();
-});
+function displayTweet(targetHTML, tweetId) {
+	twttr.widgets.createTweet(tweetId,targetHTML,
+		{
+		 align: 'left'
+		})
+	  	.then(function (el) {
+			twttr.widgets.load();
+	 	});	
+}
 
           		let parsedNegative = new Array();
            		let parsedPositive = new Array();
@@ -209,10 +209,32 @@ function doSentimentAnalysis(searchResults)
 			             	
 	     //        		// make the loop through each 
 
+$(document).ready(() => {
+	//Search USA as default for trending topics
+	this.getTrendingTopics('23424977');
+});
+
+database.ref('recentSearches').on('value', (snapshot) => {
+	this.displayRecentSearches(snapshot);	
+});
 
 $('#location-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
-	$('#location-search-input').val('');
-	this.doTwitterSearch(searchTerm);
+	//Encode special characters into escape codes and do search
+	this.doTwitterSearch(encodeURIComponent(searchTerm));
+});
+
+$('#trending-search-submit-btn').on('click', (event) => {
+	event.preventDefault();
+	let location = $('#trending-search-input').val();
+	this.doWOEIDRequest(encodeURIComponent(location));
+});
+
+$('#trending-search-input').on('click', (event) => {
+	$(event.target).val('');
+});
+
+$('#location-search-input').on('click', (event) => {
+	$(event.target).val('');
 });

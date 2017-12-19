@@ -53,10 +53,15 @@
 
 		<!-- **** Main Body Container **** -->
 		<div class="container main-body">
-
 		<!-- **** Trending Searches **** -->
 		<div class = "row">
 			<h3 class="centered">Trending Topics</h3>
+			<form id="trending-search-form" class="form-inline col-md-12">
+				<button type="submit" id="trending-search-submit-btn" class="btn btn-secondary rounded-0"><i class="fa fa-search"></i></button>
+			<label class="sr-only" for="trending-search-input"></label>
+			<input type="text" class="form-control rounded-0" id="trending-search-input" placeholder="City, State or Country">
+			</form>
+
 			<div class = "col-md-12 rounded" id = "trending-topics">
 			</div>
 		</div>
