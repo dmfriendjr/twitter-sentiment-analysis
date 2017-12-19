@@ -62,7 +62,7 @@ function doTwitterSearch(searchTerm) {
 function doTwitterRequest(searchTerm, searchType) {
 	$.ajax({
 		method: 'GET',
-		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}?t=${searchType}`,
+		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}&t=${searchType}`,
 	}).done( (response) => {
 		let targetHTML = searchType === 'popular' ? document.getElementById('popular-tweets') : document.getElementById('recent-tweets');
 		processTweetResults(JSON.parse(response),targetHTML);
@@ -72,7 +72,7 @@ function doTwitterRequest(searchTerm, searchType) {
 function getTrendingTopics() {
 	$.ajax({
 		method: 'GET',
-		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=1`,
+		url: `https://twitter-trending-analysis.herokuapp.com/trending/?id=23424977`,
 	}).done( (response) => {
 		displayTrendingTopics(JSON.parse(response));	
 	});
