@@ -74,9 +74,7 @@ function doWOEIDRequest(locationSearch) {
 		method: 'GET',
 		url: `https://query.yahooapis.com/v1/public/yql?q=select%20woeid%20from%20geo.places(1)%20where%20text%3D%22${locationSearch}%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`
 	}).done((response) => {
-		console.log(response);
-		console.log('WOEID is', response.query.results.place.woeid);
-		if (response.query.results.place.woeid !== null) {
+		if (response.query.results !== null) {
 			this.getTrendingTopics(response.query.results.place.woeid);
 		}
 	});
