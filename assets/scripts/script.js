@@ -191,5 +191,6 @@ $('#location-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
 	let searchTerm = $('#location-search-input').val();
 	$('#location-search-input').val('');
-	this.doTwitterSearch(searchTerm);
+	//Encode special characters into escape codes and do search
+	this.doTwitterSearch(encodeURIComponent(searchTerm));
 });
