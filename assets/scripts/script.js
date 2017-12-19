@@ -156,8 +156,13 @@ $(document).ready(() => {
 	this.getTrendingTopics();
 });
 
+          		let parsedNegative = new Array();
+           		let parsedPositive = new Array();
+           		let parsedNeutral = new Array();
+           		
 function doSentimentAnalysis(searchResults)
 {
+	let sentimentObject=[];
 	for (let i = 0; i < searchResults.length; i++) {
 		let form = new FormData();
 		form.append("text", searchResults[i]);
@@ -180,12 +185,29 @@ function doSentimentAnalysis(searchResults)
 
 		$.ajax(settings).done(function (response) {
 		    let sentimentObject = (JSON.parse(response));
-            // console.log(sentimentObject);
+            console.log(sentimentObject);
+      		
 
-		});
+       				parsedNegative.push(parseFloat(sentimentObject["neg_percent"]));
+       				parsedPositive.push(parseFloat(sentimentObject["pos_percent"]));
+	    	   		parsedNeutral.push(parseFloat(sentimentObject["mid_percent"]));
+       				
+       				sumPositive = parsedPositive.reduce((pv, cv) => pv+cv, 0);
+       				sumNegative = parsedNegative.reduce((pv, cv) => pv+cv, 0);
+       				sumNeutral = parsedNeutral.reduce((pv, cv) => pv+cv, 0);
+		                console.log(sumPositive / parsedPositive.length); 
+		                console.log(sumNegative / parsedNegative.length);
+		                console.log(sumNeutral / parsedNeutral.length);
+					// $.each(parsedNegative,function(){sum+=parseFloat(this) || 0;});
+           			// of these turn them into a variable and then push to HTML
+            		
+		});			
 
-	}	
+	}				
 }
+		
+			             	
+	     //        		// make the loop through each 
 
 
 $('#location-search-submit-btn').on('click', (event) => {
