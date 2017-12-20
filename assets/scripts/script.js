@@ -228,14 +228,10 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 					popularPosPercent = parsedPopularPositive.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
 					popularNegPercent = parsedPopularNegative.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
 					popularNeutralPercent = parsedPopularNeutral.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;	
-					$('#overall-sentiment').append(`
-						<div>
-							<p>Popular Sentiment</p>
-							<span>Positive: ${popularPosPercent}</span>
-							<span>Negative: ${popularNegPercent}</span>
-							<span>Neutral: ${popularNeutralPercent}</span>
-						</div>
-					`);
+
+					displaySentiment('Popular Results', popularPosPercent, popularNegPercent, popularNeutralPercent);
+
+
 					$('#sentiment-div').attr('style', 'visibility: visible');
 					popularResultsCalculated = true;
 				}
@@ -253,21 +249,20 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 					recentPosPercent = parsedRecentPositive.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;
 					recentNegPercent = parsedRecentNegative.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;
 					recentNeutralPercent = parsedRecentNeutral.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;	
-					$('#overall-sentiment').append(`
-						<div>
-							<p>Recent Sentiment</p>
-							<span>Positive: ${recentPosPercent}</span>
-							<span>Negative: ${recentNegPercent}</span>
-							<span>Neutral: ${recentNeutralPercent}</span>
-						</div>
-					`);
+
+					displaySentiment('Recent Results', recentPosPercent, recentNegPercent, recentNeutralPercent);
+
 					$('#sentiment-div').attr('style', 'visibility: visible');
 					recentResultsCalculated = true;
 				}
 			}
 
 			if (popularResultsCalculated && recentResultsCalculated) {
-			
+				let overallPos = (popularPosPercent + recentPosPercent) / 2;
+				let overallNeg = (popularNegPercent + recentNegPercent) / 2;
+				let overallNeutral = (popularNeutralPercent + recentNeutralPercent) / 2;
+
+				displaySentiment('Overall', overallPos, overallNeg, overallNeutral);
 			}
 
 			parsedNegative.push(parseFloat(sentimentObject["neg_percent"]));
@@ -280,6 +275,17 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 		});			
 
 	}				
+}
+
+function displaySentiment(title, positive, negative, neutral) {
+	$('#overall-sentiment').append(`
+		<div>
+			<p>${title}</p>
+			<span>Positive: ${positive.toFixed(2)}</span>
+			<span>Negative: ${negative.toFixed(2)}</span>
+			<span>Neutral: ${neutral.toFixed(2)}</span>
+		</div>
+	`);
 }
 		
 			             	
