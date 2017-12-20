@@ -121,6 +121,9 @@ function doTwitterSearch(searchTerm) {
 	this.updateSearchesDatabase(searchTerm);
 	this.doTwitterRequest(searchTerm, 'popular');
 	this.doTwitterRequest(searchTerm, 'recent');
+	$('html, body').animate({
+    scrollTop: $("#sentiment-div").offset().top
+    }, 1500);
 }
 
 function doTwitterRequest(searchTerm, searchType) {

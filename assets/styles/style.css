@@ -1,24 +1,57 @@
 /*Global Styling*/
 
-/** {
+* {
 	box-sizing: border-box;
-}*/
+}
+
+header {
+	display: flex;
+}
 
 body {
-	background: #678C94;
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	background: #F2F2F2;
+	font-family: "Lato", Arial, "Lucida Grande", sans-serif; 
 	font-size: 18px;
 	line-height: 34px;
+}
+
+.main-page-header {
+	font-family: "Lato";
+}
+
+.main-page-thumbnail {
+	margin-bottom: 20px;
+}
+
+.main-page-subtext {
+	color: #53F58B;
+	font-family: "Lato";
+	text-transform: uppercase;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+.main-page-subtext-alt {
+	letter-spacing: 1.5px;
+	font-size: 18px;
+	padding-top: 80px;
+	color: #A8A8A8;
+	margin-bottom: 0px;
+}
+
+.main-body-trending {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 section {
 	background: url("../images/header-people.jpg");
 	padding: 50px;
-
- /* Full height */
   height: 100%; 
-
- /* Create the parallax scrolling effect */
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -36,16 +69,19 @@ section {
 
 h1 {
 	margin-bottom: 0px;
-}
-
-h3 {
-	text-align: center;
+	font-family: "lato", sans-serif;
 }
 
 #recent-div, 
 #sentiment-div, 
 #popular-div {
 	visibility: hidden;
+	text-align: center;
+}
+
+#search-results {
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 #loading-icon {
@@ -57,7 +93,7 @@ h3 {
 .jumbotron {
 	text-align: center;
   background: rgb(100, 204, 204); /* Fallback for older browsers without RGBA-support */
-  background: rgba(204, 204, 204, 0.80);
+  background: rgba(0, 0, 0, 0.85);
   color: white;
   max-height: 904px;
   display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
@@ -79,6 +115,17 @@ h3 {
 	width: 80%;
 }
 
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 20%;               
+  background-color: #A8A8A8;
+  height: 2px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
 #location-search-submit-btn,
 #trending-search-submit-btn {
 	margin:0px;
@@ -96,7 +143,7 @@ h3 {
 }
 
 #location-search-input {
-	border: white;
+	border: #727B83 1px solid;
 	padding-top: 7px;
 	padding-bottom: 7px;
 	width: 85%;
@@ -141,10 +188,10 @@ h3 {
 	text-align: center;
 }
 
-#trending-topics {
+#main-page-trending {
 	text-align: center;
 	background-color: white;
-	margin-top: 10px;
+	margin-top: 80px;
 	margin-bottom: 10px;
 	padding: 10px;
 	border: 1px solid #FFFFFF;
@@ -154,7 +201,7 @@ h3 {
 
 #sentimental-div {
 	background-color: white;
-	margin-top: 10px;
+	margin-top: 80px;
 	margin-bottom: 10px;
 	padding: 10px;
 	border: 1px solid #FFFFFF;
@@ -199,4 +246,26 @@ h3 {
 h6 {
 	margin-bottom: 0px;
 	font-weight: 400;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 768px) {
+ h1 {
+ 	font-size: 32px;
+ 	font-weight: 400;
+ }	
+
+ h4 {
+	font-size: 20px;
+ }
+
+ .main-page-subtext-alt {
+  	padding-top: 30px;
+ }
+
+ #main-page-trending,
+ #sentimental-div {
+  	margin-top: 30px;
+ }
 }
