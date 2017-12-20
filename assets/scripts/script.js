@@ -18,6 +18,8 @@ let recentNeutralPercent;
 let popularPosPercent;
 let popularNegPercent;
 let popularNeutralPercent;
+let popularSentimentResults;
+let recentSentimentResults;
 let isSearchOngoing = false;
 let popularResultsFound = true;
 let recentResultsFound = true;
@@ -116,6 +118,10 @@ function displayTrendingTopics(response) {
 }
 
 function doTwitterSearch(searchTerm) {
+	if (isSearchOngoing){
+		return;
+	}
+
 	$('#sentiment-div').show();	
 	$('#overall-sentiment').hide();
 	$('#loading-icon').show();	
@@ -123,21 +129,15 @@ function doTwitterSearch(searchTerm) {
 	this.doTwitterRequest(searchTerm, 'popular');
 	this.doTwitterRequest(searchTerm, 'recent');
 	$('html, body').animate({
-    scrollTop: $("#sentiment-div").offset().top
-    }, 1500);
+    		scrollTop: $("#sentiment-div").offset().top
+ 		}, 1500);
+
+	isSearchOngoing = true;
 }
 
-function doTwitterRequest(searchTerm, searchType) {
-	if (isSearchOngoing)
-		return;
-
-	if (searchType === 'recent') {
-		isSearchOngoing = true;
-	}
-	
+function doTwitterRequest(searchTerm, searchType) {	
 	popularResultsFound = true;
 	recentResultsFound = true;
-
 
 	//Reset sentiment variables
 	recentResultsCalculated = false;
@@ -234,8 +234,6 @@ function displayTweet(targetHTML, tweetId) {
 	 	});	
 }
 
-
-
 function doSentimentAnalysis(searchResults, targetHTMLId)
 {
 	if (targetHTMLId === 'popular-tweets') {
@@ -276,14 +274,8 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				parsedPopularNeutral.push(parseFloat(sentimentObject["mid_percent"]));
 
 				if (popularResponsesRecieved >= totalPopularResults) {
-						
-					popularPosPercent = parsedPopularPositive.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
-					popularNegPercent = parsedPopularNegative.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
-					popularNeutralPercent = parsedPopularNeutral.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;	
-
-					displaySentiment('Popular Results', popularPosPercent, popularNegPercent, popularNeutralPercent);
-
-
+					popularSentimentResults = getSentimentResults(parsedPopularPositive, parsedPopularNeutral, parsedPopularNegative);
+					displaySentiment('Popular Results', popularSentimentResults[0], popularSentimentResults[1], popularSentimentResults[2]);
 					popularResultsCalculated = true;
 				}
 			} else {
@@ -294,23 +286,19 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				parsedRecentNeutral.push(parseFloat(sentimentObject["mid_percent"]));	
 
 				if (recentResponsesRecieved >= totalRecentResults) {
-					recentPosPercent = parsedRecentPositive.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;
-					recentNegPercent = parsedRecentNegative.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;
-					recentNeutralPercent = parsedRecentNeutral.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;	
-
-					displaySentiment('Recent Results', recentPosPercent, recentNegPercent, recentNeutralPercent);
-
+					recentSentimentResults = getSentimentResults(parsedRecentPositive, parsedRecentNeutral, parsedRecentNegative);
+					displaySentiment('Recent Results', recentSentimentResults[0], recentSentimentResults[1], recentSentimentResults[2]);
 					recentResultsCalculated = true;
 				}
 			}
 
 			if (popularResultsCalculated && recentResultsCalculated) {
-				let overallPos = (popularPosPercent + recentPosPercent) / 2;
-				let overallNeg = (popularNegPercent + recentNegPercent) / 2;
-				let overallNeutral = (popularNeutralPercent + recentNeutralPercent) / 2;
-
-				displaySentiment('Overall', overallPos, overallNeg, overallNeutral);
+				let overallPos = (popularSentimentResults[0] + recentSentimentResults[0]) / 2;
+				let overallNeutral = (popularSentimentResults[1] + recentSentimentResults[1]) / 2;
+				let overallNeg = (popularSentimentResults[2] + recentSentimentResults[2]) / 2;
+				displaySentiment('Overall', overallPos, overallNeutral, overallNeg);
 				isSearchOngoing = false;
+
 				$('#overall-sentiment').show();
 				$('#loading-icon').hide();
 			}
@@ -319,7 +307,19 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 	}				
 }
 
-function displaySentiment(title, positive, negative, neutral) {
+function getSentimentResults(positive, neutral, negative) {
+	let sentimentResults = [];
+	sentimentResults.push(calculateAverageSentiment(positive));
+	sentimentResults.push(calculateAverageSentiment(neutral));
+	sentimentResults.push(calculateAverageSentiment(negative));
+	return sentimentResults;
+}
+
+function calculateAverageSentiment(sentimentArray) {
+	return sentimentArray.reduce((pv, cv) => pv+cv, 0) / sentimentArray.length;
+}
+
+function displaySentiment(title, positive, neutral, negative) {
 	$('#overall-sentiment').append(`
 		<div class="sentiment-results">
 			<h4 class="sentiment-label">${title}:</h4>
