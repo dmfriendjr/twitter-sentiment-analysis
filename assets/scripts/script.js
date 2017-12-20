@@ -279,8 +279,8 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 
 function displaySentiment(title, positive, negative, neutral) {
 	$('#overall-sentiment').append(`
-		<div>
-			<p>${title}</p>
+		<div class="sentiment-results">
+			<h4>${title}:</h4>
 			<span>Positive: ${positive.toFixed(2)}%</span>
 			<span>Negative: ${negative.toFixed(2)}%</span>
 			<span>Neutral: ${neutral.toFixed(2)}%</span>
