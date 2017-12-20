@@ -264,7 +264,6 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				parsedPopularNeutral.push(parseFloat(sentimentObject["mid_percent"]));
 
 				if (parsedPopularNegative.length >= totalPopularResults) {
-					console.log('All done', parsedPopularNegative.length, 'of' , totalPopularResults);
 					popularSentimentResults = getSentimentResults(parsedPopularPositive, parsedPopularNeutral, parsedPopularNegative);
 					displaySentiment('Popular Results', popularSentimentResults[0], popularSentimentResults[1], popularSentimentResults[2]);
 					popularResultsCalculated = true;
@@ -281,16 +280,17 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 					recentResultsCalculated = true;
 				}
 			}
-
-			if (popularResultsCalculated && recentResultsCalculated 
-				|| (popularResultsCalculated && !recentResultsFound) 
-				|| (recentResultsCalculated && !popularResultsFound)) {
+			if ((popularResultsCalculated && !recentResultsFound) || (recentResultsCalculated && !popularResultsFound)) {
+				isSearchOngoing = false;
+				$('#overall-sentiment').show();
+				$('#loading-icon').hide();
+			} else if (popularResultsCalculated && recentResultsCalculated) {
 				let overallPos = (popularSentimentResults[0] + recentSentimentResults[0]) / 2;
 				let overallNeutral = (popularSentimentResults[1] + recentSentimentResults[1]) / 2;
 				let overallNeg = (popularSentimentResults[2] + recentSentimentResults[2]) / 2;
 				displaySentiment('Overall', overallPos, overallNeutral, overallNeg);
-				isSearchOngoing = false;
 
+				isSearchOngoing = false;
 				$('#overall-sentiment').show();
 				$('#loading-icon').hide();
 			}
