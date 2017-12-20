@@ -115,6 +115,9 @@ function displayTrendingTopics(response) {
 }
 
 function doTwitterSearch(searchTerm) {
+	$('#sentiment-div').attr('style', 'visibility: visible');	
+	$('#overall-sentiment').attr('style', 'visibility: hidden');
+	$('#loading-icon').attr('style', 'visibility: visible');	
 	this.updateSearchesDatabase(searchTerm);
 	this.doTwitterRequest(searchTerm, 'popular');
 	this.doTwitterRequest(searchTerm, 'recent');
@@ -269,7 +272,7 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				parsedPopularNeutral.push(parseFloat(sentimentObject["mid_percent"]));
 
 				if (popularResponsesRecieved >= totalPopularResults) {
-					
+						
 					popularPosPercent = parsedPopularPositive.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
 					popularNegPercent = parsedPopularNegative.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
 					popularNeutralPercent = parsedPopularNeutral.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;	
@@ -277,7 +280,6 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 					displaySentiment('Popular Results', popularPosPercent, popularNegPercent, popularNeutralPercent);
 
 
-					$('#sentiment-div').attr('style', 'visibility: visible');
 					popularResultsCalculated = true;
 				}
 			} else {
@@ -294,7 +296,6 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 
 					displaySentiment('Recent Results', recentPosPercent, recentNegPercent, recentNeutralPercent);
 
-					$('#sentiment-div').attr('style', 'visibility: visible');
 					recentResultsCalculated = true;
 				}
 			}
@@ -306,6 +307,8 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 
 				displaySentiment('Overall', overallPos, overallNeg, overallNeutral);
 				isSearchOngoing = false;
+				$('#overall-sentiment').attr('style', 'visibility: visible');
+				$('#loading-icon').attr('style', 'visibility: hidden');
 			}
 		});			
 
