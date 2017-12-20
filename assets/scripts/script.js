@@ -81,6 +81,7 @@ function doWOEIDRequest(locationSearch) {
 		url: `https://query.yahooapis.com/v1/public/yql?q=select%20woeid%20from%20geo.places(1)%20where%20text%3D%22${locationSearch}%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`
 	}).done((response) => {
 		if (response.query.results !== null) {
+			$('#trending-area').text(decodeURIComponent(locationSearch));
 			this.getTrendingTopics(response.query.results.place.woeid);
 		}
 	});
@@ -115,9 +116,9 @@ function displayTrendingTopics(response) {
 }
 
 function doTwitterSearch(searchTerm) {
-	$('#sentiment-div').attr('style', 'visibility: visible');	
-	$('#overall-sentiment').attr('style', 'visibility: hidden');
-	$('#loading-icon').attr('style', 'visibility: visible');	
+	$('#sentiment-div').show();	
+	$('#overall-sentiment').hide();
+	$('#loading-icon').show();	
 	this.updateSearchesDatabase(searchTerm);
 	this.doTwitterRequest(searchTerm, 'popular');
 	this.doTwitterRequest(searchTerm, 'recent');
@@ -310,8 +311,8 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 
 				displaySentiment('Overall', overallPos, overallNeg, overallNeutral);
 				isSearchOngoing = false;
-				$('#overall-sentiment').attr('style', 'visibility: visible');
-				$('#loading-icon').attr('style', 'visibility: hidden');
+				$('#overall-sentiment').show();
+				$('#loading-icon').hide();
 			}
 		});			
 
@@ -323,8 +324,8 @@ function displaySentiment(title, positive, negative, neutral) {
 		<div class="sentiment-results">
 			<h4>${title}:</h4>
 			<span>Positive: ${positive.toFixed(2)}%</span>
-			<span>Negative: ${negative.toFixed(2)}%</span>
 			<span>Neutral: ${neutral.toFixed(2)}%</span>
+			<span>Negative: ${negative.toFixed(2)}%</span>
 		</div>
 	`);
 }
@@ -332,6 +333,7 @@ function displaySentiment(title, positive, negative, neutral) {
 $(document).ready(() => {
 	//Search USA as default for trending topics
 	this.getTrendingTopics('23424977');
+	$('#sentiment-div').hide();
 });
 
 database.ref('recentSearches').on('value', (snapshot) => {

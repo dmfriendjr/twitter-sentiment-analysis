@@ -73,9 +73,12 @@ h1 {
 }
 
 #recent-div, 
-#sentiment-div, 
 #popular-div {
 	visibility: hidden;
+	text-align: center;
+}
+
+#sentiment-div {
 	text-align: center;
 }
 
