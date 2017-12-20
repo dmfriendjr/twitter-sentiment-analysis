@@ -313,11 +313,11 @@ function calculateAverageSentiment(sentimentArray) {
 
 function displaySentiment(title, positive, neutral, negative) {
 	$('#overall-sentiment').append(`
-		<div class="sentiment-results">
+		<div class="col-md-4 sentiment-results">
 			<h4 class="sentiment-label">${title}:</h4>
-			<span>Positive: ${positive.toFixed(2)}%</span>
-			<span>Neutral: ${neutral.toFixed(2)}%</span>
-			<span>Negative: ${negative.toFixed(2)}%</span>
+			<div>Positive: ${positive.toFixed(2)}%</div>
+			<div>Neutral: ${neutral.toFixed(2)}%</div>
+			<div>Negative: ${negative.toFixed(2)}%</div>
 		</div>
 	`);
 }
