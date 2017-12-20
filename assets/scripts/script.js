@@ -10,8 +10,6 @@ let parsedPopularNeutral = new Array();
 
 let totalPopularResults = 0;
 let totalRecentResults = 0;
-let popularResponsesRecieved = 0;
-let recentResponsesRecieved = 0;
 
 let popularSentimentResults;
 let recentSentimentResults;
@@ -140,8 +138,6 @@ function doTwitterRequest(searchTerm, searchType) {
 	popularResultsCalculated = false;
 	totalPopularResults = 0;
 	totalRecentResults = 0;
-	popularResponsesRecieved = 0;
-	recentResponsesRecieved = 0;
 
 	parsedRecentNegative = new Array();
 	parsedRecentPositive = new Array();
@@ -263,14 +259,10 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 		    let sentimentObject = (JSON.parse(response));
 			
 			if (this.searchType === 'popular-tweets') {
-				popularResponsesRecieved++;
 
 				parsedPopularNegative.push(parseFloat(sentimentObject["neg_percent"]));
 				parsedPopularPositive.push(parseFloat(sentimentObject["pos_percent"]));
 				parsedPopularNeutral.push(parseFloat(sentimentObject["mid_percent"]));
-
-				console.log('Popular Recieved', popularResponsesRecieved, 'Expected', totalPopularResults, 'length', parsedPopularNegative.length);
-
 
 				if (parsedPopularNegative.length >= totalPopularResults) {
 					console.log('All done', parsedPopularNegative.length, 'of' , totalPopularResults);
@@ -279,13 +271,10 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 					popularResultsCalculated = true;
 				}
 			} else {
-				recentResponsesRecieved++;
 
 				parsedRecentNegative.push(parseFloat(sentimentObject["neg_percent"]));
 				parsedRecentPositive.push(parseFloat(sentimentObject["pos_percent"]));
 				parsedRecentNeutral.push(parseFloat(sentimentObject["mid_percent"]));	
-
-				//console.log('Recent Recieved', recentResponsesRecieved, 'Expected', totalRecentResults, 'length', parsedRecentNegative.length);
 
 				if (parsedRecentNegative.length >= totalRecentResults) {
 					recentSentimentResults = getSentimentResults(parsedRecentPositive, parsedRecentNeutral, parsedRecentNegative);
