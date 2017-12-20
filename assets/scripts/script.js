@@ -1,5 +1,27 @@
 let popularTweetData = $('#popular-tweets').text();
 let database = firebase.database();
+           		
+let parsedRecentNegative = new Array();
+let parsedRecentPositive = new Array();
+let parsedRecentNeutral = new Array();
+let parsedPopularNegative = new Array();
+let parsedPopularPositive = new Array();
+let parsedPopularNeutral = new Array();
+
+let totalPopularResults = 0;
+let totalRecentResults = 0;
+let popularResponsesRecieved = 0;
+let recentResponsesRecieved = 0;
+let recentPosPercent;
+let recentNegPercent;
+let recentNeutralPercent;
+let popularPosPercent;
+let popularNegPercent;
+let popularNeutralPercent;
+let isSearchOngoing = false;
+let recentResultsCalculated = false;
+let popularResultsCalculated = false;
+
 
 function updateSearchesDatabase(searchTerm) {
 
@@ -97,6 +119,31 @@ function doTwitterSearch(searchTerm) {
 }
 
 function doTwitterRequest(searchTerm, searchType) {
+	if (isSearchOngoing)
+		return;
+
+	if (searchType === 'recent') {
+		isSearchOngoing = true;
+	}
+
+	//Reset sentiment variables
+	recentResultsCalculated = false;
+	popularResultsCalculated = false;
+	totalPopularResults = 0;
+	totalRecentResults = 0;
+	popularResponsesRecieved = 0;
+	recentResponsesRecieved = 0;
+
+	parsedRecentNegative = new Array();
+	parsedRecentPositive = new Array();
+	parsedRecentNeutral = new Array();
+
+	parsedPopularNegative = new Array();
+	parsedPopularPositive = new Array();
+	parsedPopularNeutral = new Array();
+
+	$('#overall-sentiment').empty();
+
 	$.ajax({
 		method: 'GET',
 		url: `https://twitter-trending-analysis.herokuapp.com/tweets/?q=${searchTerm}&t=${searchType}`,
@@ -156,29 +203,7 @@ function displayTweet(targetHTML, tweetId) {
 	 	});	
 }
 
-let parsedNegative = new Array();
-let parsedPositive = new Array();
-let parsedNeutral = new Array();
-           		
-let parsedRecentNegative = new Array();
-let parsedRecentPositive = new Array();
-let parsedRecentNeutral = new Array();
-let parsedPopularNegative = new Array();
-let parsedPopularPositive = new Array();
-let parsedPopularNeutral = new Array();
 
-let totalPopularResults = 0;
-let totalRecentResults = 0;
-let popularResponsesRecieved = 0;
-let recentResponsesRecieved = 0;
-let recentPosPercent;
-let recentNegPercent;
-let recentNeutralPercent;
-let popularPosPercent;
-let popularNegPercent;
-let popularNeutralPercent;
-let recentResultsCalculated = false;
-let popularResultsCalculated = false;
 
 function doSentimentAnalysis(searchResults, targetHTMLId)
 {
@@ -191,7 +216,7 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 	let sentimentObject=[];
 	for (let i = 0; i < searchResults.length; i++) {
 		let form = new FormData();
-		form.append("text", searchResults[i]);
+		form.append("text", encodeURIComponent(searchResults[i]));
 		let settings = {
 		  "async": true,
 		  "crossDomain": true,
@@ -263,15 +288,8 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				let overallNeutral = (popularNeutralPercent + recentNeutralPercent) / 2;
 
 				displaySentiment('Overall', overallPos, overallNeg, overallNeutral);
+				isSearchOngoing = false;
 			}
-
-			parsedNegative.push(parseFloat(sentimentObject["neg_percent"]));
-			parsedPositive.push(parseFloat(sentimentObject["pos_percent"]));
-			parsedNeutral.push(parseFloat(sentimentObject["mid_percent"]));
-			
-			sumPositive = parsedPositive.reduce((pv, cv) => pv+cv, 0);
-			sumNegative = parsedNegative.reduce((pv, cv) => pv+cv, 0);
-			sumNeutral = parsedNeutral.reduce((pv, cv) => pv+cv, 0);				
 		});			
 
 	}				
