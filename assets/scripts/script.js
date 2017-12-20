@@ -282,7 +282,9 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				}
 			}
 
-			if (popularResultsCalculated && recentResultsCalculated) {
+			if (popularResultsCalculated && recentResultsCalculated 
+				|| (popularResultsCalculated && !recentResultsFound) 
+				|| (recentResultsCalculated && !popularResultsFound)) {
 				let overallPos = (popularSentimentResults[0] + recentSentimentResults[0]) / 2;
 				let overallNeutral = (popularSentimentResults[1] + recentSentimentResults[1]) / 2;
 				let overallNeg = (popularSentimentResults[2] + recentSentimentResults[2]) / 2;
