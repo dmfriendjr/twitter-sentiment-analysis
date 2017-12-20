@@ -131,7 +131,6 @@ function doTwitterRequest(searchTerm, searchType) {
 	popularResultsFound = true;
 	recentResultsFound = true;
 
-	console.log(popularResultsFound, recentResultsFound, this.popularResultsFound, this.recentResultsFound);
 
 	//Reset sentiment variables
 	recentResultsCalculated = false;
