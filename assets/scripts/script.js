@@ -143,7 +143,7 @@ function processTweetResults(response,targetHTML) {
 
 	$('#popular-div').attr('style', 'visibility: visible');
 	$('#recent-div').attr('style', 'visibility: visible');
-	this.doSentimentAnalysis(searchResults);
+	this.doSentimentAnalysis(searchResults, $(targetHTML).attr('id'));
 }
 
 function displayTweet(targetHTML, tweetId) {
@@ -156,17 +156,42 @@ function displayTweet(targetHTML, tweetId) {
 	 	});	
 }
 
-          		let parsedNegative = new Array();
-           		let parsedPositive = new Array();
-           		let parsedNeutral = new Array();
+let parsedNegative = new Array();
+let parsedPositive = new Array();
+let parsedNeutral = new Array();
            		
-function doSentimentAnalysis(searchResults)
+let parsedRecentNegative = new Array();
+let parsedRecentPositive = new Array();
+let parsedRecentNeutral = new Array();
+let parsedPopularNegative = new Array();
+let parsedPopularPositive = new Array();
+let parsedPopularNeutral = new Array();
+
+let totalPopularResults = 0;
+let totalRecentResults = 0;
+let popularResponsesRecieved = 0;
+let recentResponsesRecieved = 0;
+let recentPosPercent;
+let recentNegPercent;
+let recentNeutralPercent;
+let popularPosPercent;
+let popularNegPercent;
+let popularNeutralPercent;
+let recentResultsCalculated = false;
+let popularResultsCalculated = false;
+
+function doSentimentAnalysis(searchResults, targetHTMLId)
 {
+	if (targetHTMLId === 'popular-tweets') {
+		totalPopularResults = searchResults.length;
+	} else {
+		totalRecentResults = searchResults.length;
+	}
+	totalResults = searchResults.length;
 	let sentimentObject=[];
 	for (let i = 0; i < searchResults.length; i++) {
 		let form = new FormData();
 		form.append("text", searchResults[i]);
-
 		let settings = {
 		  "async": true,
 		  "crossDomain": true,
@@ -180,27 +205,78 @@ function doSentimentAnalysis(searchResults)
 		  "processData": false,
 		  "contentType": false,
 		  "mimeType": "multipart/form-data",
-		  "data": form
+		  "data": form,
+			"searchType": targetHTMLId 
 		}
 
-		$.ajax(settings).done(function (response) {
+		$.ajax(settings).done(function (response, targetHTMLId) {
 		    let sentimentObject = (JSON.parse(response));
-            console.log(sentimentObject);
-      		
+			//console.log(sentimentObject);
+			//console.log(this);
+			
+			if (this.searchType === 'popular-tweets') {
+				popularResponsesRecieved++;
 
-       				parsedNegative.push(parseFloat(sentimentObject["neg_percent"]));
-       				parsedPositive.push(parseFloat(sentimentObject["pos_percent"]));
-	    	   		parsedNeutral.push(parseFloat(sentimentObject["mid_percent"]));
-       				
-       				sumPositive = parsedPositive.reduce((pv, cv) => pv+cv, 0);
-       				sumNegative = parsedNegative.reduce((pv, cv) => pv+cv, 0);
-       				sumNeutral = parsedNeutral.reduce((pv, cv) => pv+cv, 0);
-		                console.log(sumPositive / parsedPositive.length); 
-		                console.log(sumNegative / parsedNegative.length);
-		                console.log(sumNeutral / parsedNeutral.length);
-					// $.each(parsedNegative,function(){sum+=parseFloat(this) || 0;});
-           			// of these turn them into a variable and then push to HTML
-            		
+				parsedPopularNegative.push(parseFloat(sentimentObject["neg_percent"]));
+				parsedPopularPositive.push(parseFloat(sentimentObject["pos_percent"]));
+				parsedPopularNeutral.push(parseFloat(sentimentObject["mid_percent"]));
+				//console.log('Popular', popularResponsesRecieved, totalPopularResults);
+
+				if (popularResponsesRecieved >= totalPopularResults) {
+					//alert('All popular responses recieved');
+					
+					popularPosPercent = parsedPopularPositive.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
+					popularNegPercent = parsedPopularNegative.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
+					popularNeutralPercent = parsedPopularNeutral.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;	
+					$('#overall-sentiment').append(`
+						<div>
+							<p>Popular Sentiment</p>
+							<span>Positive: ${popularPosPercent}</span>
+							<span>Negative: ${popularNegPercent}</span>
+							<span>Neutral: ${popularNeutralPercent}</span>
+						</div>
+					`);
+					$('#sentiment-div').attr('style', 'visibility: visible');
+					popularResultsCalculated = true;
+				}
+			} else {
+				recentResponsesRecieved++;
+
+				parsedRecentNegative.push(parseFloat(sentimentObject["neg_percent"]));
+				parsedRecentPositive.push(parseFloat(sentimentObject["pos_percent"]));
+				parsedRecentNeutral.push(parseFloat(sentimentObject["mid_percent"]));	
+
+				//console.log('Recent', recentResponsesRecieved, totalRecentResults);				
+				if (recentResponsesRecieved >= totalRecentResults) {
+					//alert('All recent responeses recieved');
+					
+					recentPosPercent = parsedRecentPositive.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;
+					recentNegPercent = parsedRecentNegative.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;
+					recentNeutralPercent = parsedRecentNeutral.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;	
+					$('#overall-sentiment').append(`
+						<div>
+							<p>Recent Sentiment</p>
+							<span>Positive: ${recentPosPercent}</span>
+							<span>Negative: ${recentNegPercent}</span>
+							<span>Neutral: ${recentNeutralPercent}</span>
+						</div>
+					`);
+					$('#sentiment-div').attr('style', 'visibility: visible');
+					recentResultsCalculated = true;
+				}
+			}
+
+			if (popularResultsCalculated && recentResultsCalculated) {
+			
+			}
+
+			parsedNegative.push(parseFloat(sentimentObject["neg_percent"]));
+			parsedPositive.push(parseFloat(sentimentObject["pos_percent"]));
+			parsedNeutral.push(parseFloat(sentimentObject["mid_percent"]));
+			
+			sumPositive = parsedPositive.reduce((pv, cv) => pv+cv, 0);
+			sumNegative = parsedNegative.reduce((pv, cv) => pv+cv, 0);
+			sumNeutral = parsedNeutral.reduce((pv, cv) => pv+cv, 0);				
 		});			
 
 	}				
@@ -218,9 +294,9 @@ database.ref('recentSearches').on('value', (snapshot) => {
 	this.displayRecentSearches(snapshot);	
 });
 
-$('#location-search-submit-btn').on('click', (event) => {
+$('#trending-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
-	let searchTerm = $('#location-search-input').val();
+	let searchTerm = $('#trending-search-input').val();
 	searchTerm = searchTerm.trim();
 	if (searchTerm.length > 0) {
 		//Encode special characters into escape codes and do search
@@ -228,9 +304,9 @@ $('#location-search-submit-btn').on('click', (event) => {
 	}
 });
 
-$('#trending-search-submit-btn').on('click', (event) => {
+$('#location-search-submit-btn').on('click', (event) => {
 	event.preventDefault();
-	let location = $('#trending-search-input').val();
+	let location = $('#location-search-input').val();
 	this.doWOEIDRequest(encodeURIComponent(location));
 });
 
