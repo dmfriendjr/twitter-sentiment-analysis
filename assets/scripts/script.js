@@ -323,8 +323,8 @@ function displaySentiment(title, positive, neutral, negative) {
 }
 			             	
 $(document).ready(() => {
-	//Search USA as default for trending topics
-	this.getTrendingTopics('23424977');
+	//Search Richmond as default for trending topics
+	this.getTrendingTopics('2480894');
 	$('#sentiment-div').hide();
 });
 
