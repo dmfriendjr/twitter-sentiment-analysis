@@ -10,13 +10,9 @@ header {
 
 body {
 	background: #F2F2F2;
-	font-family: "Lato", Arial, "Lucida Grande", sans-serif; 
+	font-family: "sofia-pro", sans-serif; 
 	font-size: 18px;
 	line-height: 34px;
-}
-
-.main-page-header {
-	font-family: "Lato";
 }
 
 .main-page-thumbnail {
@@ -25,7 +21,6 @@ body {
 
 .main-page-subtext {
 	color: #53F58B;
-	font-family: "Lato";
 	text-transform: uppercase;
 	padding-bottom: 0px;
 	margin-bottom: 0px;
@@ -69,7 +64,6 @@ section {
 
 h1 {
 	margin-bottom: 0px;
-	font-family: "lato", sans-serif;
 }
 
 #recent-div, 
