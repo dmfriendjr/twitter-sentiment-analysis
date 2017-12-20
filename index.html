@@ -34,14 +34,12 @@
 				<h4>Find Out What The World Is Thinking</h4>
 
 				<!-- **** Search Bar **** -->
-<!-- 				<div class="row">
- -->					<form id="submit-form" class="form-inline col-md-12">
-						<button type="submit" id="trending-search-submit-btn" class="btn btn-secondary rounded-0"><i class="fa fa-search"></i></button>
-  					<label class="sr-only" for="trending-search-input"></label>
-  					<input type="text" class="form-control rounded-0" id="trending-search-input" placeholder="Trending topics...">
-					</form>
-<!-- 				</div>
- -->
+				<form id="submit-form" class="form-inline col-md-12">
+					<button type="submit" id="trending-search-submit-btn" class="btn btn-secondary rounded-0"><i class="fa fa-search"></i></button>
+					<label class="sr-only" for="trending-search-input"></label>
+					<input type="text" class="form-control rounded-0" id="trending-search-input" placeholder="Trending topics...">
+				</form>
+
 					<!-- **** Recent Searches **** -->
 					<div class="row">
 						<div class = "col-md-12" id="recent-searches"></div>
@@ -54,16 +52,21 @@
 		<!-- **** Main Body Container **** -->
 		<div class="container main-body">
 
-		<!-- **** Trending Searches **** -->
-		<form id="location-search-form" class="form-inline col-md-12">
-				<button type="submit" id="location-search-submit-btn" class="btn btn-secondary rounded-0"><i class="fa fa-search"></i></button>
-			<label class="sr-only" for="location-search-input"></label>
-			<input type="text" class="form-control rounded-0" id="location-search-input" placeholder="City, State or Country">
-			</form>
 		<div class = "row">
-			<h3 class="centered">Trending Topics</h3>
+			<h3 class="trending-header">Trending Topics</h3>
 
-			<div class = "col-md-12 rounded" id = "trending-topics">
+			<div class = "col-md-12 rounded">
+				
+				<!-- **** Trending Searches **** -->
+				<form id="location-search-form" class="form-inline col-md-12">
+					<button type="submit" id="location-search-submit-btn" class="btn btn-secondary rounded-0"><i class="fa fa-search"></i></button>
+					<label class="sr-only" for="location-search-input"></label>
+					<input type="text" class="form-control rounded-0" id="location-search-input" placeholder="City, State or Country">
+				</form>
+
+				<!-- **** Trending Topics **** -->
+				<div id = "trending-topics"></div>
+			
 			</div>
 		</div>
 
