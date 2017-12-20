@@ -1,8 +1,8 @@
 /*Global Styling*/
 
-* {
+/** {
 	box-sizing: border-box;
-}
+}*/
 
 body {
 	background: #678C94;
@@ -46,6 +46,12 @@ h3 {
 #sentiment-div, 
 #popular-div {
 	visibility: hidden;
+}
+
+#loading-icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /*Jumbotron & Contents*/
@@ -148,7 +154,7 @@ h3 {
 
 /*Sentiment Overview*/
 
-#overall-sentiment {
+#sentimental-div {
 	background-color: white;
 	margin-top: 10px;
 	margin-bottom: 10px;
