@@ -19,6 +19,8 @@ let popularPosPercent;
 let popularNegPercent;
 let popularNeutralPercent;
 let isSearchOngoing = false;
+let popularResultsFound = true;
+let recentResultsFound = true;
 let recentResultsCalculated = false;
 let popularResultsCalculated = false;
 
@@ -125,6 +127,11 @@ function doTwitterRequest(searchTerm, searchType) {
 	if (searchType === 'recent') {
 		isSearchOngoing = true;
 	}
+	
+	popularResultsFound = true;
+	recentResultsFound = true;
+
+	console.log(popularResultsFound, recentResultsFound, this.popularResultsFound, this.recentResultsFound);
 
 	//Reset sentiment variables
 	recentResultsCalculated = false;
@@ -160,6 +167,24 @@ function processTweetResults(response,targetHTML) {
 	
 	//Empty any old tweets
 	$(targetHTML).empty();
+
+	if ($(targetHTML).attr('id') === 'recent-tweets') {
+		if (response.statuses.length === 0) {
+			recentResultsFound = false;
+		}
+	} else {
+		if (response.statuses.length === 0) {
+			popularResultsFound = false;
+		}
+	}
+
+	if (popularResultsFound === false && recentResultsFound === false) {
+		isSearchOngoing = false;
+	}
+
+	if (response.statuses.length === 0){
+		$(targetHTML).append('<p>No Results</p>');
+	}
 
 	for (let i = 0; i < response.statuses.length; i++) {
 		//If retweeted, display the retweeted status instead
@@ -236,8 +261,6 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 
 		$.ajax(settings).done(function (response, targetHTMLId) {
 		    let sentimentObject = (JSON.parse(response));
-			//console.log(sentimentObject);
-			//console.log(this);
 			
 			if (this.searchType === 'popular-tweets') {
 				popularResponsesRecieved++;
@@ -245,10 +268,8 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				parsedPopularNegative.push(parseFloat(sentimentObject["neg_percent"]));
 				parsedPopularPositive.push(parseFloat(sentimentObject["pos_percent"]));
 				parsedPopularNeutral.push(parseFloat(sentimentObject["mid_percent"]));
-				//console.log('Popular', popularResponsesRecieved, totalPopularResults);
 
 				if (popularResponsesRecieved >= totalPopularResults) {
-					//alert('All popular responses recieved');
 					
 					popularPosPercent = parsedPopularPositive.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
 					popularNegPercent = parsedPopularNegative.reduce((pv, cv) => pv+cv, 0) / popularResponsesRecieved;
@@ -267,10 +288,7 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				parsedRecentPositive.push(parseFloat(sentimentObject["pos_percent"]));
 				parsedRecentNeutral.push(parseFloat(sentimentObject["mid_percent"]));	
 
-				//console.log('Recent', recentResponsesRecieved, totalRecentResults);				
 				if (recentResponsesRecieved >= totalRecentResults) {
-					//alert('All recent responeses recieved');
-					
 					recentPosPercent = parsedRecentPositive.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;
 					recentNegPercent = parsedRecentNegative.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;
 					recentNeutralPercent = parsedRecentNeutral.reduce((pv, cv) => pv+cv, 0) / recentResponsesRecieved;	
@@ -305,10 +323,7 @@ function displaySentiment(title, positive, negative, neutral) {
 		</div>
 	`);
 }
-		
 			             	
-	     //        		// make the loop through each 
-
 $(document).ready(() => {
 	//Search USA as default for trending topics
 	this.getTrendingTopics('23424977');
