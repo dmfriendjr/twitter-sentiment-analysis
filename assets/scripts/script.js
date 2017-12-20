@@ -12,14 +12,10 @@ let totalPopularResults = 0;
 let totalRecentResults = 0;
 let popularResponsesRecieved = 0;
 let recentResponsesRecieved = 0;
-let recentPosPercent;
-let recentNegPercent;
-let recentNeutralPercent;
-let popularPosPercent;
-let popularNegPercent;
-let popularNeutralPercent;
+
 let popularSentimentResults;
 let recentSentimentResults;
+
 let isSearchOngoing = false;
 let popularResultsFound = true;
 let recentResultsFound = true;
@@ -273,7 +269,11 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				parsedPopularPositive.push(parseFloat(sentimentObject["pos_percent"]));
 				parsedPopularNeutral.push(parseFloat(sentimentObject["mid_percent"]));
 
-				if (popularResponsesRecieved >= totalPopularResults) {
+				console.log('Popular Recieved', popularResponsesRecieved, 'Expected', totalPopularResults, 'length', parsedPopularNegative.length);
+
+
+				if (parsedPopularNegative.length >= totalPopularResults) {
+					console.log('All done', parsedPopularNegative.length, 'of' , totalPopularResults);
 					popularSentimentResults = getSentimentResults(parsedPopularPositive, parsedPopularNeutral, parsedPopularNegative);
 					displaySentiment('Popular Results', popularSentimentResults[0], popularSentimentResults[1], popularSentimentResults[2]);
 					popularResultsCalculated = true;
@@ -285,7 +285,9 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				parsedRecentPositive.push(parseFloat(sentimentObject["pos_percent"]));
 				parsedRecentNeutral.push(parseFloat(sentimentObject["mid_percent"]));	
 
-				if (recentResponsesRecieved >= totalRecentResults) {
+				//console.log('Recent Recieved', recentResponsesRecieved, 'Expected', totalRecentResults, 'length', parsedRecentNegative.length);
+
+				if (parsedRecentNegative.length >= totalRecentResults) {
 					recentSentimentResults = getSentimentResults(parsedRecentPositive, parsedRecentNeutral, parsedRecentNegative);
 					displaySentiment('Recent Results', recentSentimentResults[0], recentSentimentResults[1], recentSentimentResults[2]);
 					recentResultsCalculated = true;
