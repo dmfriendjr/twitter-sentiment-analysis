@@ -281,9 +281,9 @@ function displaySentiment(title, positive, negative, neutral) {
 	$('#overall-sentiment').append(`
 		<div>
 			<p>${title}</p>
-			<span>Positive: ${positive.toFixed(2)}</span>
-			<span>Negative: ${negative.toFixed(2)}</span>
-			<span>Neutral: ${neutral.toFixed(2)}</span>
+			<span>Positive: ${positive.toFixed(2)}%</span>
+			<span>Negative: ${negative.toFixed(2)}%</span>
+			<span>Neutral: ${neutral.toFixed(2)}%</span>
 		</div>
 	`);
 }
