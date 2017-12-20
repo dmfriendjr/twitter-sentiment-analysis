@@ -25,29 +25,28 @@ function updateSearchesDatabase(searchTerm) {
 
 	database.ref('recentSearches').once('value', (snapshot) => {
 		if (snapshot.exists()) {
-		//Convert JSON to array
-		let searchArray = Object.values(snapshot.val());
-		//Check if search term exists anywhere in children
-		let searchExists = false;	
-		for (var key in searchArray) {
-			if (searchArray[key].searchTerm === searchTerm) {
-				searchExists = true;
+			//Convert JSON to array
+			let searchArray = Object.values(snapshot.val());
+			//Check if search term exists anywhere in children
+			let searchExists = false;	
+			for (var key in searchArray) {
+				if (searchArray[key].searchTerm === searchTerm) {
+					searchExists = true;
+				}
 			}
-		}
 
-		if (!searchExists) {
-			//Remove results at beginning until there are only 4
-			while(searchArray.length > 4) {
-				searchArray.shift();
+			if (!searchExists) {
+				//Remove results at beginning until there are only 4
+				while(searchArray.length > 4) {
+					searchArray.shift();
+				}
+				
+				//Stringify array, parse string, set database
+				database.ref('recentSearches').set(JSON.parse(JSON.stringify(searchArray)));	
+
+				//Push new search term to database
+				database.ref('recentSearches').push({searchTerm});
 			}
-			
-			//Stringify array, parse string, set database
-			database.ref('recentSearches').set(JSON.parse(JSON.stringify(searchArray)));	
-
-			//Push new search term to database
-			database.ref('recentSearches').push({searchTerm});
-		}
-		
 		}
 	});	
 }
@@ -159,7 +158,7 @@ function doTwitterRequest(searchTerm, searchType) {
 }
 
 function processTweetResults(response,targetHTML) {
-	this.searchResults = [];
+	let searchResults = [];
 	let displayTweets = 0;
 	let displayedTweetIds = [];
 	
@@ -189,7 +188,7 @@ function processTweetResults(response,targetHTML) {
 		if (response.statuses[i].hasOwnProperty('retweeted_status')) {
 			//Don't display duplicate retweets
 			if (displayedTweetIds.indexOf(response.statuses[i].retweeted_status.id_str) === -1) {
-				this.searchResults.push(response.statuses[i].retweeted_status.full_text);
+				searchResults.push(response.statuses[i].retweeted_status.full_text);
 				//Only display up to 25 tweets
 				if (displayTweets < 25) {
 					displayTweets++;
@@ -200,7 +199,7 @@ function processTweetResults(response,targetHTML) {
 			}
 		//Display original tweet
 		} else {
-			this.searchResults.push(response.statuses[i].full_text);
+			searchResults.push(response.statuses[i].full_text);
 			displayedTweetIds.push(response.statuses[i].id_str);
 			//Only display up to 25 tweets			
 			if (displayTweets < 25) {
