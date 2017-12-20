@@ -288,7 +288,7 @@ function doSentimentAnalysis(searchResults, targetHTMLId)
 				let overallPos = (popularSentimentResults[0] + recentSentimentResults[0]) / 2;
 				let overallNeutral = (popularSentimentResults[1] + recentSentimentResults[1]) / 2;
 				let overallNeg = (popularSentimentResults[2] + recentSentimentResults[2]) / 2;
-				displaySentiment('Overall', overallPos, overallNeutral, overallNeg);
+				displaySentiment('Overall Results', overallPos, overallNeutral, overallNeg);
 
 				isSearchOngoing = false;
 				$('#overall-sentiment').show();
@@ -315,9 +315,9 @@ function displaySentiment(title, positive, neutral, negative) {
 	$('#overall-sentiment').append(`
 		<div class="col-md-4 sentiment-results">
 			<h4 class="sentiment-label">${title}:</h4>
-			<div>Positive: ${positive.toFixed(2)}%</div>
-			<div>Neutral: ${neutral.toFixed(2)}%</div>
-			<div>Negative: ${negative.toFixed(2)}%</div>
+			<div>Positive: ${positive.toFixed(2)}% <i class="fa fa-caret-up" style="font-size:28px"></i></div>
+			<div>Neutral: ${neutral.toFixed(2)}%</i></div>
+			<div>Negative: ${negative.toFixed(2)}% <i class="fa fa-caret-down" style="font-size:28px"></i></div>
 		</div>
 	`);
 }

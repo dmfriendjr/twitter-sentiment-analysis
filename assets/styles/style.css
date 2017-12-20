@@ -91,6 +91,18 @@ h1 {
 	font-size:50px;
 }
 
+.fa-caret-up {
+	color: #43A759;
+	position: absolute;
+	right: 83%;
+}
+
+.fa-caret-down {
+	color: #E84848;
+	position: absolute;
+	right: 83%;
+}
+
 /*Jumbotron & Contents*/
 
 .jumbotron {
