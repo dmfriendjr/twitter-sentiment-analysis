@@ -29,7 +29,9 @@ h1 {
 	margin-bottom: 0px
 }
 
-#recent-div, #sentiment-div, #popular-div {
+#recent-div, 
+#sentiment-div, 
+#popular-div {
 	visibility: hidden;
 }
 
@@ -53,7 +55,8 @@ h1 {
 
 /*Search Bar*/
 
-#location-search-input{
+#location-search-input,
+#trending-search-input {
 	border: white;
 	padding-top: 7px;
 	padding-bottom: 7px;
@@ -61,7 +64,8 @@ h1 {
 
 }
 
-#location-search-submit-btn {
+#location-search-submit-btn,
+#trending-search-submit-btn {
 	margin:0px;
 }
 
@@ -78,7 +82,6 @@ h1 {
 
 /*Recent Searches*/
 #recent-searches {
-	overflow: hidden;
 	min-height: 50px;
 }
 
@@ -98,8 +101,6 @@ h1 {
 	cursor: pointer;
 }
 /*body content*/
-
-/*Delete this later!!!!!*/
 
 /*Trending Topics*/
 
@@ -138,7 +139,8 @@ h1 {
 	padding: 10px;
 }
 
-#recent-tweets, #popular-tweets {
+#recent-tweets, 
+#popular-tweets {
 	max-height: 500px;
 	overflow: scroll;
 }
