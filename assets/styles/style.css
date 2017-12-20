@@ -264,15 +264,16 @@ hr {
 /*Footer*/
 
 .footer {
-	background-color: #868E95;
 	margin-bottom: 0px;
-	padding-top: 15px;
-	padding-bottom: 15px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	color: white;
+  background: rgb(100, 204, 204); /* Fallback for older browsers without RGBA-support */
+  background: rgba(0, 0, 0, 0.85);
 }
 
-h6 {
+.footer-header {
 	margin-bottom: 0px;
-	font-weight: 400;
 }
 
 /* Media Queries */
