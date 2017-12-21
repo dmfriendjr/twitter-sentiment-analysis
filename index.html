@@ -1,122 +1,118 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
-		<!-- **** Meta Info **** -->
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<!-- **** CSS Stylesheets **** -->
-		<link rel="stylesheet" href="assets/styles/reset.css">
-		<link href="https://fonts.googleapis.com/css?family=Arima+Madurai" rel="stylesheet">
+		<!-- **** Stylesheets **** -->
+		<link rel="stylesheet" type="text/css" href="assets/styles/reset.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="assets/styles/style.css">
 
-		<!-- **** JQuery **** -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 		<!-- **** Fonts **** -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 		<link rel="stylesheet" href="https://use.typekit.net/car3eln.css">
 
-
-		<!-- **** Title **** -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<title>Chirp | A Sentiment Analysis Tool</title>
-
 	</head>
 	<body>
 
-	<!-- **** Header **** -->
-	<section>
+<!-- 
+	*************************** Jumbotron ***************************
+-->
+<section>
+ <div class="row justify-content-md-center">
+  <div class="jumbotron col-md-8">
 
-		<!-- **** Jumbotron **** -->
-		<div class="row justify-content-md-center">
-			<div class="jumbotron col-md-8">
-				<h1 class="main-page-header">chirp<span style="color: #53F58B">.</span></h1>
-				<p class="main-page-subtext">Find Out What The World Is Thinking.</p>
+   <h1 class="main-page-header">chirp<span style="color: #53F58B;">.</span></h1>
+   <p class="main-page-subtext">Find Out What The World Is Thinking.</p>
 
-				<!-- **** Search Bar **** -->
-				<form id="submit-form" class="form-inline col-md-12">
-					<button type="submit" id="trending-search-submit-btn" class="btn btn-secondary rounded-0"><i class="fa fa-search"></i></button>
-					<label class="sr-only" for="trending-search-input"></label>
-					<input type="text" class="form-control rounded-0" id="trending-search-input" placeholder="Trending topics...">
-				</form>
+   <form id="submit-form" class="form-inline col-md-12">
+    <button id="trending-search-submit-btn" class="btn btn-secondary rounded-0" type="submit"><i class="fa fa-search"></i></button>
+    <label class="sr-only" for="trending-search-input"></label>
+    <input id="trending-search-input" class="form-control rounded-0" type="text" placeholder="Trending topics...">
+   </form>
 
-				<!-- **** Recent Searches **** -->
-				<div class="row">
-					<div class="col-md-12" id="recent-searches"></div>
-				</div>
-			</div>
-		</div>	
-	</section>
+    <div class="row">
+    	<div id="recent-searches" class="col-md-12"></div>
+    </div>
 
-	<!-- **** Main Body Container **** -->
-	<div class="container">
+  </div>
+ </div>	
+</section>
 
-		<!-- **** Trending Div **** -->
-		<div class="main-body-trending">
-			<p class="main-page-subtext-alt">What's Trending?</p><hr>
-			<img class="main-page-thumbnail" src="assets/images/conversation.png">
-			<h2>The <strong style="color: #53F58B">big</strong> topics being discussed today.</h2>
-		</div>
+<!-- 
+	*************************** Body *************************** 
+-->
+<div class="container">
 
-		<!-- **** Trending Searches **** -->
-		<div id="main-page-trending" class="rounded">
-			<p>Popular in <span id="trending-area">Richmond, Virginia</span>:</p>
+<!-- 
+	*************************** Trending Topics *************************** 
+-->
 
-			<!-- **** Trending Topics **** -->
-			<div id="trending-topics"></div>
+ <div class="main-body-trending">
 
-			<!-- **** Location Search **** -->
-			<p>Pick A New Location:</p>
-			<form id="location-search-form" class="form-inline col-md-12">
-				<button type="submit" id="location-search-submit-btn" class="btn btn-secondary rounded-0"><i class="fa fa-search"></i></button>
-				<label class="sr-only" for="location-search-input"></label>
-				<input type="text" class="form-control rounded-0" id="location-search-input" placeholder="City, State or Country">
-			</form>
-		</div>
+ 	<p class="main-page-subtext-alt">What's Trending?</p><hr>
+  <img class="main-page-thumbnail" src="assets/images/conversation.png">
+  <h2>The <strong style="color: #53F58B">big</strong> topics being discussed today.</h2>
+ </div>
+ 
+ <div id="main-page-trending" class="rounded">
+ 	<p>Popular in <span id="trending-area">Richmond, Virginia</span>:</p>
+  <div id="trending-topics"></div>
+  <p>Pick A New Location:</p>
+	<form id="location-search-form" class="form-inline col-md-12">
+   <button id="location-search-submit-btn" class="btn btn-secondary rounded-0" type="submit"><i class="fa fa-search"></i></button>
+   <label class="sr-only" for="location-search-input"></label>
+   <input id="location-search-input" class="form-control rounded-0" type="text" placeholder="City, State or Country">
+  </form>
+ </div>
 
-		<!-- **** Sentiment Div **** -->
-		<div id="sentiment-div">
-			<p class="main-page-subtext-alt">Sentiment Analysis</p><hr>
-			<img class="main-page-thumbnail" src="assets/images/idea.png">
-			<h2 class="offset-md-3 col-md-6 col-s-12">How do people <strong style="color: #53F58B">feel</strong> about what's happening around them?</h2>
-			<div class="col-md-12 rounded mt-1" id="sentimental-div">
-				<i class="fa fa-cog fa-spin fa-3x fa-fw text-center" id="loading-icon"></i>
-				<div class="container">
-					<div class="row" id="overall-sentiment">
-					</div>
-				</div>
-			</div>
-		</div>
+<!-- 
+	*************************** Sentiment Analysis *************************** 
+-->
+ <div id="sentiment-div">
+ 	<p class="main-page-subtext-alt">Sentiment Analysis</p><hr>
+ 	<img class="main-page-thumbnail" src="assets/images/idea.png">
+ 	<h2 class="offset-md-3 col-md-6 col-s-12">How do people <strong style="color: #53F58B">feel</strong> about what's happening around them?</h2>
+ 	 <div id="sentimental-div" class="col-md-12 rounded mt-1">
+ 	 	<i id="loading-icon" class="fa fa-cog fa-spin fa-3x fa-fw text-center"></i>
+ 	 	<div class="container">
+ 	 		<div id="overall-sentiment" class="row"></div>
+ 	 	</div>
+ 	 </div>
+ 	</div>
 
-		<!-- **** Div that displays up to 10 most popular **** -->
-		<div class="row mt-5">
-			<div class="col-s-12 col-md-6 rounded" id="popular-div">
-				<h3>Popular Tweets</h3>
-				<div class="col-s-12 col-md-11 rounded" id="popular-tweets">
-				</div>
-			</div>
-
-		<!-- **** Div that displays up to 10 most recent **** -->
-			<div class="col-s-12 col-md-6 rounded" id="recent-div">
-				<h3 class="offset-md-1">Recent Tweets</h3>
-				<div class="col-s-12 col-md-11 offset-md-1 rounded"  id="recent-tweets">
-				</div>
-			</div>
-		</div>
+ <!-- 
+	*************************** Popular & Recent Tweets *************************** 
+-->
+ <div class="row mt-5">
+ 	<div id="popular-div" class="col-s-12 col-md-6 rounded">
+   <h3>Popular Tweets</h3>
+   <div id="popular-tweets" class="col-s-12 col-md-11 rounded"></div>
 	</div>
+	
+  <div id="recent-div" class="col-s-12 col-md-6 rounded">
+   <h3 class="offset-md-1">Recent Tweets</h3>
+   <div id="recent-tweets" class="col-s-12 col-md-11 offset-md-1 rounded"></div>
+  </div>
+ </div>
+</div>
 
-<!-- **** Footer **** -->
-	<footer class="container-fluid footer">
-		<h4 class="footer-header text-center">chirp<span style="color: #53F58B">.</span></h4>
-		<h6 class="footer-header text-center">Crafted in RVA</h6>
-		<h6 class="footer-header text-center">&copy; 2017 Designed by Nalease, Jared, Rob, David</h6>
-	</footer>
+<!-- 
+	*************************** Footer *************************** 
+-->
+<footer class="container-fluid footer">
+ <h4 class="footer-header text-center">chirp<span style="color: #53F58B">.</span></h4>
+ <h6 class="footer-header text-center">Crafted in RVA</h6>
+ <h6 class="footer-header text-center">&copy; 2017 Designed by Nalease, Jared, Rob, David</h6>
+</footer>
 
-	<!-- *** Twitter Javascript links *** -->
+<!-- 
+	*************************** Twitter Javascript Links *************************** 
+-->
 	<script>window.twttr=(function(d, s, id) {
 	  var js, fjs=d.getElementsByTagName(s)[0],
 	    t=window.twttr || {};
